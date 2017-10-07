@@ -56,8 +56,6 @@ group :development do
 
   gem 'annotate'
 
-  gem 'erb2haml'
-
   gem 'guard-rspec', require: false
 
   gem 'awesome_print'
