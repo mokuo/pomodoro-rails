@@ -51,4 +51,4 @@ production:
   <<: *default
   database: pomodoro-rails_production
   username: pomodoro-rails
-  password: <%= ENV['POMODORO-RAILS_DATABASE_PASSWORD'] %>
+  password: <%= ENV['POMODORO_RAILS_DATABASE_PASSWORD'] %>
