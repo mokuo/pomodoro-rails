@@ -27,5 +27,20 @@ module PomodoroRails
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.generators do |g|
+      g.assets false
+      g.decorator false
+      g.factory_girl dir: 'spec/factories'
+      g.helper false
+      g.jbuilder false
+      g.test_framework :rspec,
+        fixture_replacement: :factory_girl,
+        view_specs: false,
+        routing_specs: false
+    end
+
+    config.time_zone = "Tokyo"
+    config.active_record.default_timezone = :local
   end
 end
