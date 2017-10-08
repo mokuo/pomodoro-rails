@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171008121630) do
+ActiveRecord::Schema.define(version: 20171008124051) do
+
+  create_table "pomodoros", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "task_id", null: false
+    t.integer "box", null: false
+    t.boolean "done", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_pomodoros_on_task_id"
+  end
 
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id", null: false
@@ -39,6 +48,7 @@ ActiveRecord::Schema.define(version: 20171008121630) do
     t.index ["name"], name: "index_users_on_name"
   end
 
+  add_foreign_key "pomodoros", "tasks"
   add_foreign_key "projects", "users"
   add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "users"
