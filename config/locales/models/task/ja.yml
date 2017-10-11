@@ -1,0 +1,10 @@
+ja:
+  activerecord:
+    models:
+      task: タスク
+    attributes:
+      task:
+        user: ユーザー
+        project: プロジェクト
+        name: タスク名
+        done: タスク完了

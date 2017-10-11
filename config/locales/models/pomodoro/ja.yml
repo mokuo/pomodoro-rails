@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      pomodoro: ポモドーロ
+    attributes:
+      pomodoro:
+        task: タスク
+        box: ボックス
+        done: ポモドーロ完了
