@@ -21,6 +21,6 @@
 FactoryGirl.define do
   factory :pomodoro do
     task
-    box 0
+    box 1
   end
 end
