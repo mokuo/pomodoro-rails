@@ -23,7 +23,10 @@
 
 class Task < ApplicationRecord
   belongs_to :user
-  belongs_to :project
+  belongs_to :project, optional: true
 
   has_many :pomodoros
+
+  validates :name, presence: true
+  validates :done, inclusion: { in: [true, false] }
 end

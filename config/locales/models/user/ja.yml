@@ -6,3 +6,4 @@ ja:
       user:
         name: ユーザー名
         password: パスワード
+        password_confirmation: パスワード確認
