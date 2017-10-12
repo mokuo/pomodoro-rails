@@ -10,6 +10,10 @@ jobs:
        - image: circleci/ruby:2.4.1-node-browsers
          environment:
             RAILS_ENV: test
+      - image: circleci/mysql:5.7.19
+        environment:
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
