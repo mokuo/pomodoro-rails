@@ -25,7 +25,7 @@ class Task < ApplicationRecord
   belongs_to :user
   belongs_to :project, optional: true
 
-  has_many :pomodoros
+  has_many :pomodoros, dependent: :destroy
 
   validates :name, presence: true
   validates :done, inclusion: { in: [true, false] }
