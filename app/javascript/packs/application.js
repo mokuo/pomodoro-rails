@@ -8,5 +8,4 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import 'src/application'
-import 'jquery/dist/jquery'
 import 'bootstrap/dist/js/bootstrap'
