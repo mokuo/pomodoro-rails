@@ -1,13 +1,10 @@
 = form_for @project do |f|
   - if @project.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@project.errors.count, "error")} prohibited this project from being saved:"
-      %ul
-        - @project.errors.full_messages.each do |message|
-          %li= message
+    .alert.alert-danger
+      - @project.errors.full_messages.each do |message|
+        = message
 
-  .field
+  .form-group
     = f.label :name
-    = f.text_field :name
-  .actions
-    = f.submit 'Save'
+    = f.text_field :name, class: 'form-control'
+  = f.submit '保存', class: 'btn btn-outline-secondary mb-2'
