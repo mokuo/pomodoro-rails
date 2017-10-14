@@ -25,6 +25,9 @@ jobs:
     steps:
       - checkout
 
+      - run: yarn --version || curl -o -L https://yarnpkg.com/install.sh | bash
+      - run: yarn
+
       # Download and cache dependencies
       - restore_cache:
           keys:

@@ -37,7 +37,8 @@ module PomodoroRails
       g.test_framework :rspec,
         fixture_replacement: :factory_girl,
         view_specs: false,
-        routing_specs: false
+        routing_specs: false,
+        controller_specs: false
     end
 
     config.time_zone = "Tokyo"

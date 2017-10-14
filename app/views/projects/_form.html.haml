@@ -1,0 +1,10 @@
+= form_for @project do |f|
+  - if @project.errors.any?
+    .alert.alert-danger
+      - @project.errors.full_messages.each do |message|
+        = message
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  = f.submit '保存', class: 'btn btn-outline-secondary mb-2'
