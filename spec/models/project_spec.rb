@@ -27,4 +27,42 @@ RSpec.describe Project, type: :model do
   it 'has a valid factory' do
     expect(project).to be_valid
   end
+
+  describe '#stop' do
+    subject { project.stop }
+    let!(:project) { create :project }
+
+    it 'プロジェクトを停止する' do
+      expect { subject }.to change { project.stopped_at? }.from(false).to(true)
+    end
+  end
+
+  describe '#restart' do
+    subject { project.restart }
+    let!(:project) { create :project, stopped_at: DateTime.current }
+
+    it 'プロジェクトを再開する' do
+      expect { subject }.to change { project.stopped_at? }.from(true).to(false)
+    end
+  end
+
+  describe '#stopped?' do
+    subject { project.stopped? }
+
+    context 'プロジェクトが停止している時' do
+      let!(:project) { create :project, stopped_at: DateTime.current }
+
+      it 'true を返す' do
+        expect(subject).to be_truthy
+      end
+    end
+
+    context 'プロジェクトが停止していない時' do
+      let!(:project) { create :project, stopped_at: nil }
+
+      it 'false を返す' do
+        expect(subject).to be_falsy
+      end
+    end
+  end
 end
