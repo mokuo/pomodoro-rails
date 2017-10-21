@@ -1,0 +1,8 @@
+= form_with url: sessions_path, local: true do |f|
+  .form-group
+    = f.label :name, 'ユーザー名'
+    = f.text_field :name, class: 'form-control'
+  .form-group
+    = f.label :password, 'パスワード'
+    = f.password_field :password, class: 'form-control'
+  = f.button 'ログイン', class: 'btn btn-outline-secondary'
