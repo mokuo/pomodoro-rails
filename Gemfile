@@ -56,6 +56,7 @@ group :development do
 
   gem 'annotate'
   gem 'awesome_print'
+  gem 'foreman'
   gem 'guard-rspec', require: false
   gem 'spring-commands-rspec'
 end
