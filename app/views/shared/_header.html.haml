@@ -1,2 +1,9 @@
-#nav.navbar.navbar-light.bg-light.mb-3
-  #a.navbar-brand Pomodoro
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
+  = link_to 'Pomodoro', root_path, class: 'navbar-brand'
+  - if logged_in?
+    %button.navbar-toggler{"aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarNav", "data-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarNav.collapse.navbar-collapse
+      %ul.navbar-nav
+        %li.nav-item
+          = link_to 'Logout', sessions_path, method: :delete, class: 'nav-link'
