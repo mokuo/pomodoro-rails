@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Projects', type: :request do
+  include_context 'ログインしている'
+
   describe 'GET /projects' do
     subject { get '/projects' }
     let!(:projects) { create_list :project, 2 }
