@@ -24,7 +24,6 @@
 FactoryGirl.define do
   factory :task do
     user
-    project
     name "テストタスク"
   end
 end
