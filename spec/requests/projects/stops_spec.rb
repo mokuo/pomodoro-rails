@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Projects::Stops', type: :request do
+  include_context 'ログインしている'
+
   describe 'PATCH /projects/:project_id/stop' do
     subject { patch "/projects/#{project.id}/stop" }
     let!(:project) { create :project }
