@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Projects', type: :request do
+  include_context 'ログインしている'
+
   describe 'GET /projects' do
     subject { get '/projects' }
     let!(:projects) { create_list :project, 2 }
@@ -47,8 +49,6 @@ RSpec.describe 'Projects', type: :request do
 
   describe 'POST /projects' do
     subject { post '/projects', params: params }
-    # TODO: ログイン機能を実装したら、外す
-    let!(:user) { create :user }
 
     context '正常系' do
       let(:params) { { project: { name: 'テストプロジェクト' } } }

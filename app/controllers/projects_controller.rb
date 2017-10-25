@@ -13,10 +13,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(project_params)
-
-    # TODO: ログイン機能を実装したら、current_user で project を作成する
-    @project.user = User.take
+    @project = current_user.projects.new(project_params)
 
     if @project.save
       redirect_to projects_url, notice: 'プロジェクトが作成されました'

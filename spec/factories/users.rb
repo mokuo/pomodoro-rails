@@ -15,7 +15,7 @@
 
 FactoryGirl.define do
   factory :user do
-    name "テストユーザ"
+    name { FFaker::Name.name }
     password "password"
   end
 end
