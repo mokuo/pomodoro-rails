@@ -49,8 +49,6 @@ RSpec.describe 'Projects', type: :request do
 
   describe 'POST /projects' do
     subject { post '/projects', params: params }
-    # TODO: ログイン機能を実装したら、外す
-    let!(:user) { create :user }
 
     context '正常系' do
       let(:params) { { project: { name: 'テストプロジェクト' } } }
