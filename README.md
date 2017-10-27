@@ -1,9 +1,9 @@
 # 要求環境
 
-Ruby 2.4.2
-Rails 5.1.4
-MySQL 5.7.x
-Node.js 6.11.1
+- Ruby 2.4.2
+- Rails 5.1.4
+- MySQL 5.7.x
+- Node.js 6.11.1
 
 # 開発環境セットアップ手順
 
