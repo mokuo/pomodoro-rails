@@ -19,6 +19,8 @@
 #
 
 class Pomodoro < ApplicationRecord
+  enum box: { square: 1, circle: 2, triangle: 3 }
+
   belongs_to :task
 
   validates :box, numericality: { only_integer: true,
