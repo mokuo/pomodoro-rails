@@ -31,4 +31,5 @@ class Task < ApplicationRecord
 
   validates :name, presence: true
   validates :done, inclusion: { in: [true, false] }
+  validates :todo_on, presence: true
 end
