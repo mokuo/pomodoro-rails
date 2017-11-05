@@ -6,37 +6,34 @@ RSpec.describe 'Api::Projects', type: :request do
   describe 'GET /api/v1/projects' do
     subject { get '/api/v1/projects', headers: headers }
     let(:headers) { { 'ACCEPT': 'application/json' } }
-    let!(:projects) { create_list :project, 2, user: user }
+    let!(:project1) { create :project, user: user, name: 'プロジェクト1' }
+    let!(:project2) { create :project, user: user, name: 'プロジェクト2', stopped_at: DateTime.current }
+    let!(:other_project) { create :project, user: other_user }
+    let(:other_user) { create :user }
 
     before { subject }
 
-    it '@projects にプロジェクトを割り当てる' do
-      expect(assigns(:projects)).to eq projects
-    end
-
     it 'ステータスコード 200 を返す' do
-      expect(response).to have_http_status :ok
+      expect(response).to have_http_status 200
     end
 
     it 'エラーコード 0 を返す' do
       expect(response.body).to be_json_eql(0).at_path('error/code')
     end
 
-    it 'id を含む' do
-      expect(response.body).to have_json_path('projects/1/id')
-      expect(response.body).to have_json_type(Integer).at_path('projects/1/id')
+    it '1つ目のプロジェクトを返す' do
+      expect(response.body).to be_json_eql(project1.id).at_path('projects/0/id')
+      expect(response.body).to be_json_eql(project1.name.to_json).at_path('projects/0/name')
+      expect(response.body).to be_json_eql(project1.stopped_at.to_json).at_path('projects/0/stopped_at')
     end
 
-    it 'name を含む' do
-      expect(response.body).to have_json_path('projects/1/name')
-      expect(response.body).to have_json_type(String).at_path('projects/1/name')
+    it '2つ目のプロジェクトを返す' do
+      expect(response.body).to be_json_eql(project2.id).at_path('projects/1/id')
+      expect(response.body).to be_json_eql(project2.name.to_json).at_path('projects/1/name')
+      expect(response.body).to be_json_eql(project2.stopped_at.to_json).at_path('projects/1/stopped_at')
     end
 
-    it 'stopped_at を含む' do
-      expect(response.body).to have_json_path('projects/1/stopped_at')
-    end
-
-    it '正しい数のプロジェクトを含む' do
+    it 'ログインしているユーザーのプロジェクトのみを返す' do
       expect(response.body).to have_json_size(2).at_path('projects')
     end
   end
