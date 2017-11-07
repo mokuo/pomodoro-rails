@@ -8,3 +8,4 @@ ja:
         project: プロジェクト
         name: タスク名
         done: タスク完了
+        todo_on: 日付
