@@ -64,6 +64,7 @@ end
 group :test do
   gem 'database_rewinder'
   gem 'rails-controller-testing'
+  gem 'json_spec'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

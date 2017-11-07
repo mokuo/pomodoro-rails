@@ -19,10 +19,9 @@
 #
 
 class Pomodoro < ApplicationRecord
+  enum box: { square: 1, circle: 2, triangle: 3 }
+
   belongs_to :task
 
-  validates :box, numericality: { only_integer: true,
-                                  greater_than_or_equal_to: 1,
-                                  less_than_or_equal_to: 8 }
   validates :done, inclusion: { in: [true, false] }
 end
