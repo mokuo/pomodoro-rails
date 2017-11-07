@@ -26,6 +26,7 @@
 FactoryGirl.define do
   factory :task do
     user
-    name "テストタスク"
+    name 'テストタスク'
+    todo_on { Date.current }
   end
 end
