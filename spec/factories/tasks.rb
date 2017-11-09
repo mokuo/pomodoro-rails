@@ -22,7 +22,7 @@
 
 FactoryGirl.define do
   factory :task do
-    user
+    project
     name 'テストタスク'
     todo_on { Date.current }
   end
