@@ -21,8 +21,7 @@
 #
 
 class Task < ApplicationRecord
-  belongs_to :user
-  belongs_to :project, optional: true
+  belongs_to :project
 
   has_many :pomodoros, dependent: :destroy
 
