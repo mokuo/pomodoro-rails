@@ -2,7 +2,9 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:edit, :update, :destroy]
 
   def index
-    @projects = Project.all
+    # TODO: フロントエンドの実装に入り次第、外す
+    current_user = User.take
+    @projects = current_user.projects.without_default
   end
 
   def new
