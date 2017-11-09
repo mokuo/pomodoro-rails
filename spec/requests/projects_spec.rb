@@ -5,7 +5,7 @@ RSpec.describe 'Projects', type: :request do
 
   describe 'GET /projects' do
     subject { get '/projects' }
-    let!(:projects) { create_list :project, 2 }
+    let!(:projects) { create_list :project, 2, user: user }
 
     before { subject }
 

@@ -19,5 +19,13 @@ class User < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
+  after_save :create_default_project
+
   has_secure_password
+
+  private
+
+  def create_default_project
+    projects.create!(name: Constants::DEFAULT_PROJECT_NAME)
+  end
 end
