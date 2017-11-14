@@ -33,8 +33,11 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
+    if @project.destroy
       redirect_to projects_url, notice: 'プロジェクトが削除されました'
+    else
+      redirect_to projects_url, alert: @project.errors.full_messages.first
+    end
   end
 
   private
