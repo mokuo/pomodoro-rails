@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     scope :v1 do
       resources :projects, only: [:index]
+      resources :todos, only: [:index]
     end
   end
 end
