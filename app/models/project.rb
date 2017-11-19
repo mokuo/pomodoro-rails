@@ -27,6 +27,7 @@ class Project < ApplicationRecord
   validates :name, presence: true
 
   scope :without_default, -> { where.not(name: Constants::DEFAULT_PROJECT_NAME) }
+  scope :in_progress, -> { where(stopped_at: nil) }
 
   def stop
     update(stopped_at: DateTime.current)
