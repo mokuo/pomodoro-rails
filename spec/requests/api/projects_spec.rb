@@ -13,13 +13,7 @@ RSpec.describe 'Api::Projects', type: :request do
 
     before { subject }
 
-    it 'ステータスコード 200 を返す' do
-      expect(response).to have_http_status 200
-    end
-
-    it 'エラーコード 0 を返す' do
-      expect(response.body).to be_json_eql(0).at_path('error/code')
-    end
+    it_behaves_like '処理成功'
 
     it '1つ目のプロジェクトを返す' do
       expect(response.body).to be_json_eql(project1.id).at_path('projects/0/id')

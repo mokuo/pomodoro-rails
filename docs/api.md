@@ -87,7 +87,7 @@ curl -X GET \
 - メソッド
   - GET
 - URL
-  - /api/v1/projects
+  - /api/v1/todos
 - パラメータ
   - date
 
@@ -95,7 +95,7 @@ curl -X GET \
 
 ```bash
 curl -X GET \
-  'http://localhost:5000/api/v1/projects?date=2017-11-02' \
+  'http://localhost:5000/api/v1/todos?date=2017-11-02' \
   -H 'accept: application/json'
 ```
 
