@@ -1,4 +1,4 @@
-if model.try(:errors).present?
+if model.errors.present?
   json.set! :error do
     json.set! :code, 402
     json.set! :messages, model.errors.full_messages
