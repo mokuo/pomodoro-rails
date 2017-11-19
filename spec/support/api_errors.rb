@@ -22,6 +22,20 @@ shared_examples 'パラメーター不足' do
   end
 end
 
+shared_examples '存在しないリソース' do
+  it 'ステータスコード 200 を返す' do
+    expect(response).to have_http_status 200
+  end
+
+  it 'エラーコード 401 を返す' do
+    expect(response.body).to be_json_eql(401).at_path('error/code')
+  end
+
+  it 'エラーメッセージを返す' do
+    expect(response.body).to be_json_eql('指定されたリソースが見つかりません'.to_json).at_path('error/messages/0')
+  end
+end
+
 shared_examples 'バリデーションエラー' do
   it 'ステータスコード 200 を返す' do
     expect(response).to have_http_status 200

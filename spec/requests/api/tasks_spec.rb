@@ -4,7 +4,7 @@ RSpec.describe 'Api::Tasks', type: :request do
   include_context 'ログインしている'
 
   describe 'POST /api/v1/projects/:project_id/tasks' do
-    subject { post "/api/v1/projects/#{project.id}/tasks", params: params, headers: headers }
+    subject { post "/api/v1/projects/#{project_id}/tasks", params: params, headers: headers }
     let(:headers) { {
       'ACCEPT': 'application/json',
       'CONTENT_TYPE': 'application/json'
@@ -14,6 +14,7 @@ RSpec.describe 'Api::Tasks', type: :request do
     before { subject }
 
     context '正常系' do
+      let(:project_id) { project.id }
       let(:params) { '{ "task": { "name": "test_task", "todo_on": "2017-11-19" } }' }
 
       it_behaves_like '処理成功'
@@ -40,13 +41,22 @@ RSpec.describe 'Api::Tasks', type: :request do
     end
 
     context '異常系' do
-      context 'パラメーターなしの時' do
+      context 'パラメーターを指定しない時' do
+        let(:project_id) { project.id }
         let(:params) { {} }
 
         it_behaves_like 'パラメーター不足'
       end
 
+      context '存在しないプロジェクトIDを指定した時' do
+        let(:project_id) { 0 }
+        let(:params) { '{ "task": { "name": "test_task", "todo_on": "2017-11-19" } }' }
+
+        it_behaves_like '存在しないリソース'
+      end
+
       context 'バリデーションエラーの時' do
+        let(:project_id) { project.id }
         let(:params) { '{ "task": { "name": "", "todo_on": "" } }' }
 
         it_behaves_like 'バリデーションエラー'
