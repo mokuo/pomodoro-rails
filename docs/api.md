@@ -3,6 +3,7 @@
 - [認証について](#about-authentication)
 - [エラーについて](#about-error)
 - [プロジェクト一覧](#project-list)
+- [進行中プロジェクト一覧](#in-progress-project-lis)
 - [タスク付きプロジェクト一覧](#project-list-with-tasks)
 - [タスク新規作成](#create-task)
 - [タスク更新](#update-task)
@@ -74,6 +75,46 @@ curl -X GET \
       "id": 2,
       "name": "プロジェクト２",
       "stopped?": true
+    }
+  ]
+}
+```
+
+<a name="in-progress-project-list"></a>
+## 進行中プロジェクト一覧
+
+- 概要
+  - 停止されていないプロジェクト一覧を取得する
+- メソッド
+  - GET
+- URL
+  - /api/v1/projects/in_progresses
+- パラメータ
+  - なし
+
+**curl でのリクエスト例**
+
+```bash
+curl -X GET \
+  'http://localhost:5000/api/v1/projects/in_progresses' \
+  -H 'accept: application/json'
+```
+
+**レスポンス例**
+
+```json
+{
+  "error": {
+    "code": 0
+  },
+  "projects": [
+    {
+      "id": 1,
+      "name": "プロジェクト１"
+    },
+    {
+      "id": 3,
+      "name": "プロジェクト３"
     }
   ]
 }
