@@ -7,7 +7,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     scope :v1 do
-      resources :projects, only: [:index]
+      resources :projects, only: [:index] do
+        resources :tasks, only: [:create, :update, :destroy], shallow: true
+      end
       namespace :projects do
         resources :in_progresses, only: [:index]
       end
