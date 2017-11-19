@@ -38,5 +38,27 @@ RSpec.describe 'Api::Tasks', type: :request do
         expect(response.body).to be_json_eql(project.id).at_path('task/project_id')
       end
     end
+
+    context '異常系' do
+      context 'パラメーターなしの時' do
+        let(:params) { {} }
+
+        it_behaves_like 'パラメーター不足'
+      end
+
+      context 'バリデーションエラーの時' do
+        let(:params) { '{ "task": { "name": "", "todo_on": "" } }' }
+
+        it_behaves_like 'バリデーションエラー'
+
+        it 'name のバリデーションエラーを返す' do
+          expect(response.body).to be_json_eql('タスク名を入力してください'.to_json).at_path('error/messages/0')
+        end
+
+        it 'todo_on のバリデーションエラーを返す' do
+          expect(response.body).to be_json_eql('日付を入力してください'.to_json).at_path('error/messages/1')
+        end
+      end
+    end
   end
 end
