@@ -1,3 +1,5 @@
 json.partial! 'api/shared/error', model: @task
 
-json.(@task, :id, :name, :done, :project_id)
+json.set! :task do
+  json.(@task, :id, :name, :done, :todo_on, :project_id)
+end
