@@ -23,5 +23,6 @@ class Pomodoro < ApplicationRecord
 
   belongs_to :task
 
+  validates :box, presence: true
   validates :done, inclusion: { in: [true, false] }
 end
