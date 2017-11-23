@@ -249,7 +249,9 @@ curl -X PATCH \
   "task": {
     "id": 1,
     "name": "タスクA",
-    "done": true
+    "done": true,
+    "todo_on": "2017-11-19",
+    "project_id": 1
   }
 }
 ```
