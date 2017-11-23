@@ -183,19 +183,19 @@ curl -X GET \
 - メソッド
   - POST
 - URL
-  - /api/v1/tasks
+  - /api/v1/projects/:project_id/tasks
 - パラメータ
   - name
-  - project_id
+  - todo_on
 
 **curl でのリクエスト例**
 
 ```bash
 curl -X POST \
-  'http://localhost:5000/api/v1/tasks' \
+  'http://localhost:5000/api/v1/projects/1/tasks' \
   -H 'accept: application/json' \
   -H 'content-type: application/json' \
-  -d '{ "name": "タスクA", "project_id": 1 }'
+  -d '{ "name": "タスクA", "todo_on": "2017-11-19" }'
 ```
 
 **レスポンス例**
@@ -209,6 +209,7 @@ curl -X POST \
     "id": 1,
     "name": "タスクA",
     "done": false,
+    "todo_on": "2017-11-19",
     "project_id": 1
   }
 }
@@ -247,6 +248,7 @@ curl -X PATCH \
   },
   "task": {
     "id": 1,
+    "name": "タスクA",
     "done": true
   }
 }
@@ -290,7 +292,7 @@ curl -X DELETE \
 - メソッド
   - POST
 - URL
-  - /api/v1/pomodoros
+  - /api/v1/tasks/:task_id/pomodoros
 - パラメータ
   - task_id
   - box
@@ -299,10 +301,10 @@ curl -X DELETE \
 
 ```bash
 curl -X POST \
-  'http://localhost:5000/api/v1/pomodoros' \
+  'http://localhost:5000/api/v1/tasks/1/pomodoros' \
   -H 'accept: application/json' \
   -H 'content-type: application/json' \
-  -d '{ "task_id": 1, "box": "square" }'
+  -d '{ "box": "square" }'
 ```
 
 **レスポンス例**

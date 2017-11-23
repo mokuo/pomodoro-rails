@@ -23,7 +23,6 @@ RSpec.describe 'Api::Projects::InProgresses', type: :request do
     end
 
     it '進行中のプロジェクトのみ返す' do
-      p Project.all
       expect(response.body).to have_json_size(3).at_path('projects')
     end
   end
