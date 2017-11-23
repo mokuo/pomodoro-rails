@@ -153,20 +153,16 @@ RSpec.describe 'Api::Tasks', type: :request do
       'CONTENT_TYPE': 'application/json'
     } }
 
+    before do |example|
+      subject unless example.metadata[:skip_before]
+    end
+
     context '正常系' do
       let(:task_id) { task.id }
 
-      it 'ステータスコード 200 を返す' do
-        subject
-        expect(response).to have_http_status 200
-      end
+      it_behaves_like '処理成功'
 
-      it 'エラーコード 0 を返す' do
-        subject
-        expect(response.body).to be_json_eql(0).at_path('error/code')
-      end
-
-      it 'タスクを削除する' do
+      it 'タスクを削除する', :skip_before do
         expect { subject }.to change { Task.count }.by(-1)
       end
     end
