@@ -167,8 +167,7 @@ RSpec.describe 'Api::Tasks', type: :request do
     subject { delete "/api/v1/tasks/#{task_id}", headers: headers }
     let!(:task) { create :task }
     let(:headers) { {
-      'ACCEPT': 'application/json',
-      'CONTENT_TYPE': 'application/json'
+      'ACCEPT': 'application/json'
     } }
 
     before do |example|

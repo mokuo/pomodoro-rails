@@ -1,3 +1,3 @@
-json.set! :error do
-  json.set! :code, 0
+json.error do
+  json.code 0
 end
