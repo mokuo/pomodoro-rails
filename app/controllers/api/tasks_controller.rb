@@ -4,9 +4,14 @@ class Api::TasksController < Api::BaseController
     @task = project.tasks.create(task_params)
   end
 
+  def update
+    @task = Task.find(params[:id])
+    @task.update(task_params)
+  end
+
   private
 
   def task_params
-    params.require(:task).permit(:name, :todo_on)
+    params.require(:task).permit(:name, :todo_on, :done)
   end
 end
