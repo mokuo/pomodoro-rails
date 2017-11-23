@@ -144,4 +144,31 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/tasks/:id' do
+    subject { delete "/api/v1/tasks/#{task_id}", headers: headers }
+    let!(:task) { create :task }
+    let(:headers) { {
+      'ACCEPT': 'application/json',
+      'CONTENT_TYPE': 'application/json'
+    } }
+
+    context '正常系' do
+      let(:task_id) { task.id }
+
+      it 'ステータスコード 200 を返す' do
+        subject
+        expect(response).to have_http_status 200
+      end
+
+      it 'エラーコード 0 を返す' do
+        subject
+        expect(response.body).to be_json_eql(0).at_path('error/code')
+      end
+
+      it 'タスクを削除する' do
+        expect { subject }.to change { Task.count }.by(-1)
+      end
+    end
+  end
 end
