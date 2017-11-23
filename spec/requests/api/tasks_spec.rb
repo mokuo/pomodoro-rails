@@ -184,5 +184,17 @@ RSpec.describe 'Api::Tasks', type: :request do
         expect { subject }.to change { Task.count }.by(-1)
       end
     end
+
+    context '異常系' do
+      context '存在しないタスクIDを指定した時' do
+        let(:task_id) { 0 }
+
+        it_behaves_like '存在しないリソース'
+
+        it 'タスクを削除しない', :skip_before do
+          expect { subject }.not_to change { Task.count }
+        end
+      end
+    end
   end
 end
