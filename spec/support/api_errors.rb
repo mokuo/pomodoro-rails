@@ -45,3 +45,17 @@ shared_examples 'バリデーションエラー' do
     expect(response.body).to be_json_eql(402).at_path('error/code')
   end
 end
+
+shared_examples '引数エラー' do
+  it 'ステータスコード 200 を返す' do
+    expect(response).to have_http_status 200
+  end
+
+  it 'エラーコード 403 を返す' do
+    expect(response.body).to be_json_eql(403).at_path('error/code')
+  end
+
+  it 'エラーメッセージを返す' do
+    expect(response.body).to be_json_eql('引数が間違っています'.to_json).at_path('error/messages/0')
+  end
+end

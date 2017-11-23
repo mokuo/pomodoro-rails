@@ -9,6 +9,10 @@ concern :ApiErrorHandleActions do
     end
 
     # NOTE: 402はバリデーションエラーで使用
+
+    rescue_from ArgumentError do
+      render_json(403, ['引数が間違っています'])
+    end
   end
 
   private
