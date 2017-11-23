@@ -11,13 +11,19 @@ RSpec.describe 'Api::Tasks', type: :request do
     } }
     let!(:project) { create :project }
 
-    before { subject }
+    before do |example|
+      subject unless example.metadata[:skip_before]
+    end
 
     context '正常系' do
       let(:project_id) { project.id }
       let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
 
       it_behaves_like '処理成功'
+
+      it 'タスクを新規作成する', :skip_before do
+        expect { subject }.to change { Task.count }.by(1)
+      end
 
       it 'id を返す' do
         expect(response.body).to be_json_eql(Task.last.id).at_path('task/id')
@@ -46,6 +52,10 @@ RSpec.describe 'Api::Tasks', type: :request do
         let(:params) { {} }
 
         it_behaves_like 'パラメーター不足'
+
+        it 'タスクを新規作成しない', :skip_before do
+          expect { subject }.not_to change { Task.count }
+        end
       end
 
       context '存在しないプロジェクトIDを指定した時' do
@@ -53,6 +63,10 @@ RSpec.describe 'Api::Tasks', type: :request do
         let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
 
         it_behaves_like '存在しないリソース'
+
+        it 'タスクを新規作成しない', :skip_before do
+          expect { subject }.not_to change { Task.count }
+        end
       end
 
       context 'バリデーションエラーの時' do
@@ -60,6 +74,10 @@ RSpec.describe 'Api::Tasks', type: :request do
         let(:params) { '{ "name": "", "todo_on": "" }' }
 
         it_behaves_like 'バリデーションエラー'
+
+        it 'タスクを新規作成しない', :skip_before do
+          expect { subject }.not_to change { Task.count }
+        end
 
         it 'name のバリデーションエラーを返す' do
           expect(response.body).to be_json_eql('タスク名を入力してください'.to_json).at_path('error/messages/0')
