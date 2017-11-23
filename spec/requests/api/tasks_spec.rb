@@ -15,7 +15,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
     context '正常系' do
       let(:project_id) { project.id }
-      let(:params) { '{ "task": { "name": "test_task", "todo_on": "2017-11-19" } }' }
+      let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
 
       it_behaves_like '処理成功'
 
@@ -50,14 +50,14 @@ RSpec.describe 'Api::Tasks', type: :request do
 
       context '存在しないプロジェクトIDを指定した時' do
         let(:project_id) { 0 }
-        let(:params) { '{ "task": { "name": "test_task", "todo_on": "2017-11-19" } }' }
+        let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
 
         it_behaves_like '存在しないリソース'
       end
 
       context 'バリデーションエラーの時' do
         let(:project_id) { project.id }
-        let(:params) { '{ "task": { "name": "", "todo_on": "" } }' }
+        let(:params) { '{ "name": "", "todo_on": "" }' }
 
         it_behaves_like 'バリデーションエラー'
 
