@@ -176,5 +176,13 @@ RSpec.describe 'Api::Pomodoros', type: :request do
         expect { subject }.to change { Pomodoro.count }.by(-1)
       end
     end
+
+    context '異常系' do
+      context '存在しないポモドーロIDを指定した時' do
+        let(:pomodoro_id) { 0 }
+
+        it_behaves_like '存在しないリソース'
+      end
+    end
   end
 end
