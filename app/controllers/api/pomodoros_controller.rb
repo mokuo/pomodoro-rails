@@ -10,6 +10,10 @@ class Api::PomodorosController < Api::BaseController
     @pomodoro.update(pomodoro_params)
   end
 
+  def destroy
+    @pomodoro.destroy
+  end
+
   private
 
   def pomodoro_params
