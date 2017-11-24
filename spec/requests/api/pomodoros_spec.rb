@@ -90,4 +90,42 @@ RSpec.describe 'Api::Pomodoros', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/pomodoros/:id' do
+    subject { patch "/api/v1/pomodoros/#{pomodoro_id}", params: params, headers: headers }
+    let!(:pomodoro) { create :pomodoro }
+    let(:headers) { {
+      'ACCEPT': 'application/json',
+      'CONTENT_TYPE': 'application/json'
+    } }
+
+    context '正常系' do
+      let(:pomodoro_id) { pomodoro.id }
+      let(:params) { '{ "pomodoro": { "done": true } }' }
+
+      before { subject }
+
+      it_behaves_like '処理成功'
+
+      it 'ポモドーロを更新する' do
+        expect { pomodoro.reload }.to change { pomodoro.done }.from(false).to(true)
+      end
+
+      it 'ポモドーロIDを返す' do
+        expect(response.body).to be_json_eql(pomodoro.id).at_path('pomodoro/id')
+      end
+
+      it 'box を返す' do
+        expect(response.body).to be_json_eql('square'.to_json).at_path('pomodoro/box')
+      end
+
+      it 'done を返す' do
+        expect(response.body).to be_json_eql(true).at_path('pomodoro/done')
+      end
+
+      it 'タスクIDを返す' do
+        expect(response.body).to be_json_eql(pomodoro.task.id).at_path('pomodoro/task_id')
+      end
+    end
+  end
 end
