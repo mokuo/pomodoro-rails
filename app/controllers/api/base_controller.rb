@@ -1,4 +1,3 @@
-class Api::BaseController < ActionController::Base
-  # TODO: ApplicationController を継承する
+class Api::BaseController < ApplicationController
   include ApiErrorHandleActions
 end
