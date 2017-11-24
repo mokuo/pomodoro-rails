@@ -99,11 +99,11 @@ RSpec.describe 'Api::Pomodoros', type: :request do
       'CONTENT_TYPE': 'application/json'
     } }
 
+    before { subject }
+
     context '正常系' do
       let(:pomodoro_id) { pomodoro.id }
       let(:params) { '{ "pomodoro": { "done": true } }' }
-
-      before { subject }
 
       it_behaves_like '処理成功'
 
@@ -125,6 +125,33 @@ RSpec.describe 'Api::Pomodoros', type: :request do
 
       it 'タスクIDを返す' do
         expect(response.body).to be_json_eql(pomodoro.task.id).at_path('pomodoro/task_id')
+      end
+    end
+
+    context '異常系' do
+      context 'パラメーターがない時' do
+        let(:pomodoro_id) { pomodoro.id }
+        let(:params) { '' }
+
+        it_behaves_like 'パラメーター不足'
+      end
+
+      context '存在しないポモドーロIDを指定した時' do
+        let(:pomodoro_id) { 0 }
+        let(:params) { '{ "pomodoro": { "done": true } }' }
+
+        it_behaves_like '存在しないリソース'
+      end
+
+      context 'done が空文字の時' do
+        let(:pomodoro_id) { pomodoro.id }
+        let(:params) { '{ "pomodoro": { "done": "" } }' }
+
+        it_behaves_like 'バリデーションエラー'
+
+        it 'バリデーションエラーメッセージを返す' do
+          expect(response.body).to be_json_eql('ポモドーロ完了は一覧にありません'.to_json).at_path('error/messages/0')
+        end
       end
     end
   end
