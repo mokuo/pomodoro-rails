@@ -318,9 +318,9 @@ curl -X POST \
   },
   "pomodoro": {
     "id": 1,
-    "task_id": 1,
     "box": "square",
-    "done": false
+    "done": false,
+    "task_id": 1
   }
 }
 ```
@@ -356,7 +356,9 @@ curl -X PATCH \
   },
   "pomodoro": {
     "id": 1,
-    "done": true
+    "box": "square",
+    "done": true,
+    "task_id": 1
   }
 }
 ```
