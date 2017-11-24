@@ -155,4 +155,34 @@ RSpec.describe 'Api::Pomodoros', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/pomodoros/:id' do
+    subject { delete "/api/v1/pomodoros/#{pomodoro_id}", headers: headers }
+    let!(:pomodoro) { create :pomodoro }
+    let(:headers) { {
+      'ACCEPT': 'application/json'
+    } }
+
+    before do |example|
+      subject unless example.metadata[:skip_before]
+    end
+
+    context '正常系' do
+      let(:pomodoro_id) { pomodoro.id }
+
+      it_behaves_like '処理成功'
+
+      it 'ポモドーロを削除する', :skip_before do
+        expect { subject }.to change { Pomodoro.count }.by(-1)
+      end
+    end
+
+    context '異常系' do
+      context '存在しないポモドーロIDを指定した時' do
+        let(:pomodoro_id) { 0 }
+
+        it_behaves_like '存在しないリソース'
+      end
+    end
+  end
 end
