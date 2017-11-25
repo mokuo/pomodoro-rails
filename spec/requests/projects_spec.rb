@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Projects', type: :request do
-  include_context 'ログインしている'
+  before do |example|
+    login(user)unless example.metadata[:skip_login]
+  end
+  let(:user) { create :user }
 
   describe 'GET /projects' do
     subject { get '/projects' }
@@ -9,12 +12,18 @@ RSpec.describe 'Projects', type: :request do
 
     before { subject }
 
-    it '@projects にプロジェクトを割り当てる' do
-      expect(assigns(:projects)).to eq projects
+    context '正常系' do
+      it '@projects にプロジェクトを割り当てる' do
+        expect(assigns(:projects)).to eq projects
+      end
+
+      it 'プロジェクト一覧画面を表示する' do
+        expect(response).to render_template :index
+      end
     end
 
-    it 'プロジェクト一覧画面を表示する' do
-      expect(response).to render_template :index
+    context '異常系' do
+      include_context 'ログインしていない時'
     end
   end
 
@@ -23,12 +32,18 @@ RSpec.describe 'Projects', type: :request do
 
     before { subject }
 
-    it '@project に新しいプロジェクトを割り当てる' do
-      expect(assigns(:project)).to be_a_new Project
+    context '正常系' do
+      it '@project に新しいプロジェクトを割り当てる' do
+        expect(assigns(:project)).to be_a_new Project
+      end
+
+      it 'プロジェクト新規作成画面を表示する' do
+        expect(response).to render_template :new
+      end
     end
 
-    it 'プロジェクト新規作成画面を表示する' do
-      expect(response).to render_template :new
+    context '異常系' do
+      include_context 'ログインしていない時'
     end
   end
 
@@ -38,32 +53,40 @@ RSpec.describe 'Projects', type: :request do
 
     before { subject }
 
-    it '@project にプロジェクトを割り当てる' do
-      expect(assigns(:project)).to eq project
+    context '正常系' do
+      it '@project にプロジェクトを割り当てる' do
+        expect(assigns(:project)).to eq project
+      end
+
+      it 'プロジェクト編集画面表示する' do
+        expect(response).to render_template :edit
+      end
     end
 
-    it 'プロジェクト編集画面表示する' do
-      expect(response).to render_template :edit
+    context '異常系' do
+      include_context 'ログインしていない時'
     end
   end
 
   describe 'POST /projects' do
     subject { post '/projects', params: params }
 
+    before do |example|
+      subject unless example.metadata[:skip_subject]
+    end
+
     context '正常系' do
       let(:params) { { project: { name: 'テストプロジェクト' } } }
 
-      it 'プロジェクトを新規作成する' do
+      it 'プロジェクトを新規作成する', :skip_subject do
         expect { subject }.to change { Project.count }.by(1)
       end
 
       it 'flash メッセージを設定する' do
-        subject
         expect(flash[:notice]).to eq 'プロジェクトが作成されました'
       end
 
       it 'プロジェクト一覧画面に遷移する' do
-        subject
         expect(response).to redirect_to projects_url
       end
     end
@@ -77,9 +100,12 @@ RSpec.describe 'Projects', type: :request do
         end
 
         it 'プロジェクト新規作成画面を表示する' do
-          subject
           expect(response).to render_template :new
         end
+      end
+
+      include_context 'ログインしていない時' do
+        let(:params) { { project: { name: 'テストプロジェクト' } } }
       end
     end
   end
@@ -118,6 +144,10 @@ RSpec.describe 'Projects', type: :request do
           expect(response).to render_template :edit
         end
       end
+
+      include_context 'ログインしていない時' do
+        let(:params) { { project: { name: 'new name' } } }
+      end
     end
   end
 
@@ -125,13 +155,20 @@ RSpec.describe 'Projects', type: :request do
     subject { delete "/projects/#{project.id}" }
     let!(:project) { create :project }
 
-    it 'プロジェクトを削除する' do
-      expect { subject }.to change { Project.count }.by(-1)
+    before do |example|
+      subject unless example.metadata[:skip_before]
     end
 
-    it 'プロジェクト一覧画面に遷移する' do
-      subject
-      expect(response).to redirect_to projects_url
+    context '正常系' do
+      it 'プロジェクトを削除する', :skip_before do
+        expect { subject }.to change { Project.count }.by(-1)
+      end
+
+      it 'プロジェクト一覧画面に遷移する' do
+        expect(response).to redirect_to projects_url
+      end
     end
+
+    include_context 'ログインしていない時'
   end
 end
