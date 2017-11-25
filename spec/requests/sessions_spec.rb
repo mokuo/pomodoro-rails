@@ -64,12 +64,12 @@ RSpec.describe 'Sessions', type: :request do
   describe 'DELETE /sessions' do
     subject { delete '/sessions' }
 
-    context '正常系' do
-      before do
-        login
-        subject
-      end
+    before do |example|
+      login unless example.metadata[:skip_login]
+      subject
+    end
 
+    context '正常系' do
       it 'ログアウトする' do
         expect(session[:user_id]).to be_nil
       end
@@ -80,11 +80,7 @@ RSpec.describe 'Sessions', type: :request do
     end
 
     context '異常系' do
-      context 'ログインしていない時' do
-        before { subject }
-
-        it_behaves_like 'ログイン画面に遷移する'
-      end
+      include_context 'ログインしていない時'
     end
   end
 end

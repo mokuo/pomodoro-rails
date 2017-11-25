@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Projects::Stops', type: :request do
-  include_context 'ログインしている'
+  before do |example|
+    login unless example.metadata[:skip_login]
+  end
 
   describe 'PATCH /projects/:project_id/stop' do
     subject { patch "/projects/#{project.id}/stop" }
@@ -9,12 +11,18 @@ RSpec.describe 'Projects::Stops', type: :request do
 
     before { subject }
 
-    it 'プロジェクトを停止する' do
-      expect { project.reload }.to change { project.stopped_at? }.from(false).to(true)
+    context '正常系' do
+      it 'プロジェクトを停止する' do
+        expect { project.reload }.to change { project.stopped_at? }.from(false).to(true)
+      end
+
+      it 'プロジェクト一覧画面に遷移する' do
+        expect(response).to redirect_to projects_url
+      end
     end
 
-    it 'プロジェクト一覧画面に遷移する' do
-      expect(response).to redirect_to projects_url
+    context '異常系' do
+      include_context 'ログインしていない時'
     end
   end
 
@@ -24,12 +32,18 @@ RSpec.describe 'Projects::Stops', type: :request do
 
     before { subject }
 
-    it 'プロジェクトを再開する' do
-      expect { project.reload }.to change { project.stopped_at? }.from(true).to(false)
+    context '正常系' do
+      it 'プロジェクトを再開する' do
+        expect { project.reload }.to change { project.stopped_at? }.from(true).to(false)
+      end
+
+      it 'プロジェクト一覧画面に遷移する' do
+        expect(response).to redirect_to projects_url
+      end
     end
 
-    it 'プロジェクト一覧画面に遷移する' do
-      expect(response).to redirect_to projects_url
+    context '異常系' do
+      include_context 'ログインしていない時'
     end
   end
 end
