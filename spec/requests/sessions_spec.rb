@@ -60,4 +60,31 @@ RSpec.describe 'Sessions', type: :request do
       end
     end
   end
+
+  describe 'DELETE /sessions' do
+    subject { delete '/sessions' }
+
+    context '正常系' do
+      before do
+        login
+        subject
+      end
+
+      it 'ログアウトする' do
+        expect(session[:user_id]).to be_nil
+      end
+
+      it 'ログイン画面に遷移する' do
+        expect(response).to redirect_to new_sessions_path
+      end
+    end
+
+    context '異常系' do
+      context 'ログインしていない時' do
+        before { subject }
+
+        it_behaves_like 'ログイン画面に遷移する'
+      end
+    end
+  end
 end
