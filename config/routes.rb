@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # TODO: root は本日のTODOシートにする
   root 'projects#index'
   resource :sessions, only: [:new, :create, :destroy]
   resources :projects, except: :show do

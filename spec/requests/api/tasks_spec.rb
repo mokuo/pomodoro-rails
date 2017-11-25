@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Tasks', type: :request do
-  include_context 'ログインしている'
+  before do |example|
+    login unless example.metadata[:skip_login]
+  end
 
   describe 'POST /api/v1/projects/:project_id/tasks' do
     subject { post "/api/v1/projects/#{project_id}/tasks", params: params, headers: headers }
@@ -12,7 +14,7 @@ RSpec.describe 'Api::Tasks', type: :request do
     let!(:project) { create :project }
 
     before do |example|
-      subject unless example.metadata[:skip_before]
+      subject unless example.metadata[:skip_subject]
     end
 
     context '正常系' do
@@ -21,7 +23,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
       it_behaves_like '処理成功'
 
-      it 'タスクを新規作成する', :skip_before do
+      it 'タスクを新規作成する', :skip_subject do
         expect { subject }.to change { Task.count }.by(1)
       end
 
@@ -53,7 +55,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
         it_behaves_like 'パラメーター不足'
 
-        it 'タスクを新規作成しない', :skip_before do
+        it 'タスクを新規作成しない', :skip_subjct do
           expect { subject }.not_to change { Task.count }
         end
       end
@@ -64,7 +66,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
         it_behaves_like '存在しないリソース'
 
-        it 'タスクを新規作成しない', :skip_before do
+        it 'タスクを新規作成しない', :skip_subjct do
           expect { subject }.not_to change { Task.count }
         end
       end
@@ -75,7 +77,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
         it_behaves_like 'バリデーションエラー'
 
-        it 'タスクを新規作成しない', :skip_before do
+        it 'タスクを新規作成しない', :skip_subjct do
           expect { subject }.not_to change { Task.count }
         end
 
@@ -86,6 +88,11 @@ RSpec.describe 'Api::Tasks', type: :request do
         it 'todo_on のバリデーションエラーを返す' do
           expect(response.body).to be_json_eql('日付を入力してください'.to_json).at_path('error/messages/1')
         end
+      end
+
+      include_context 'ログインしていない時' do
+        let(:project_id) { project.id }
+        let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
       end
     end
   end
@@ -160,6 +167,11 @@ RSpec.describe 'Api::Tasks', type: :request do
 
         it_behaves_like '存在しないリソース'
       end
+
+      include_context 'ログインしていない時' do
+        let(:params) { '{ "name": "new task", "done": true }' }
+        let(:task_id) { task.id }
+      end
     end
   end
 
@@ -171,7 +183,7 @@ RSpec.describe 'Api::Tasks', type: :request do
     } }
 
     before do |example|
-      subject unless example.metadata[:skip_before]
+      subject unless example.metadata[:skip_subjct]
     end
 
     context '正常系' do
@@ -179,7 +191,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
       it_behaves_like '処理成功'
 
-      it 'タスクを削除する', :skip_before do
+      it 'タスクを削除する', :skip_subjct do
         expect { subject }.to change { Task.count }.by(-1)
       end
     end
@@ -190,9 +202,13 @@ RSpec.describe 'Api::Tasks', type: :request do
 
         it_behaves_like '存在しないリソース'
 
-        it 'タスクを削除しない', :skip_before do
+        it 'タスクを削除しない', :skip_subjct do
           expect { subject }.not_to change { Task.count }
         end
+      end
+
+      include_context 'ログインしていない時' do
+        let(:task_id) { task.id }
       end
     end
   end
