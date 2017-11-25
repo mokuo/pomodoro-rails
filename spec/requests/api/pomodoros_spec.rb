@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Pomodoros', type: :request do
-  include_context 'ログインしている'
+  before do |example|
+    login unless example.metadata[:skip_login]
+  end
 
   describe 'POST /api/v1/tasks/:task_id/pomodoros' do
     subject { post "/api/v1/tasks/#{task_id}/pomodoros", params: params, headers: headers }
@@ -12,7 +14,7 @@ RSpec.describe 'Api::Pomodoros', type: :request do
     } }
 
     before do |example|
-      subject unless example.metadata[:skip_before]
+      subject unless example.metadata[:skip_subject]
     end
 
     context '正常系' do
@@ -21,7 +23,7 @@ RSpec.describe 'Api::Pomodoros', type: :request do
 
       it_behaves_like '処理成功'
 
-      it 'ポモドーロを新規作成する', :skip_before do
+      it 'ポモドーロを新規作成する', :skip_subject do
         expect { subject }.to change { Pomodoro.count }.by(1)
       end
 
@@ -44,7 +46,7 @@ RSpec.describe 'Api::Pomodoros', type: :request do
 
     context '異常系' do
       shared_examples 'ポモドーロが作成されない' do
-        it :skip_before do
+        it :skip_subject do
           expect { subject }.not_to change { Pomodoro.count }
         end
       end
@@ -87,6 +89,11 @@ RSpec.describe 'Api::Pomodoros', type: :request do
         it_behaves_like '引数エラー'
 
         it_behaves_like 'ポモドーロが作成されない'
+      end
+
+      include_context 'ログインしていない時' do
+        let(:task_id) { task.id }
+        let(:params) { '{ "box": "square" }' }
       end
     end
   end
@@ -153,6 +160,11 @@ RSpec.describe 'Api::Pomodoros', type: :request do
           expect(response.body).to be_json_eql('ポモドーロ完了は一覧にありません'.to_json).at_path('error/messages/0')
         end
       end
+
+      include_context 'ログインしていない時' do
+        let(:pomodoro_id) { pomodoro.id }
+        let(:params) { '{ "pomodoro": { "done": true } }' }
+      end
     end
   end
 
@@ -164,7 +176,7 @@ RSpec.describe 'Api::Pomodoros', type: :request do
     } }
 
     before do |example|
-      subject unless example.metadata[:skip_before]
+      subject unless example.metadata[:skip_subject]
     end
 
     context '正常系' do
@@ -172,7 +184,7 @@ RSpec.describe 'Api::Pomodoros', type: :request do
 
       it_behaves_like '処理成功'
 
-      it 'ポモドーロを削除する', :skip_before do
+      it 'ポモドーロを削除する', :skip_subject do
         expect { subject }.to change { Pomodoro.count }.by(-1)
       end
     end
@@ -182,6 +194,10 @@ RSpec.describe 'Api::Pomodoros', type: :request do
         let(:pomodoro_id) { 0 }
 
         it_behaves_like '存在しないリソース'
+      end
+
+      include_context 'ログインしていない時' do
+        let(:pomodoro_id) { pomodoro.id }
       end
     end
   end

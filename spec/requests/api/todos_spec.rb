@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Projects', type: :request do
-  include_context 'ログインしている'
+  before do |example|
+    login(user) unless example.metadata[:skip_login]
+  end
+  let(:user) { create :user }
 
   describe 'GET /api/v1/todos' do
     subject { get '/api/v1/todos', params: params, headers: headers }
@@ -59,6 +62,10 @@ RSpec.describe 'Api::Projects', type: :request do
         let(:params) { {} }
 
         it_behaves_like 'パラメーター不足'
+      end
+
+      include_context 'ログインしていない時' do
+        let(:params) { { date: today.to_s } }
       end
     end
   end
