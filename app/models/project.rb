@@ -20,16 +20,19 @@
 #
 
 class Project < ApplicationRecord
+  scope :without_default, -> { where.not(name: Constants::DEFAULT_PROJECT_NAME) }
+  scope :in_progress, -> { where(stopped_at: nil) }
+
   belongs_to :user
 
   has_many :tasks, dependent: :restrict_with_error
 
   validates :name, presence: true
 
-  scope :without_default, -> { where.not(name: Constants::DEFAULT_PROJECT_NAME) }
-  scope :in_progress, -> { where(stopped_at: nil) }
+  before_destroy :protect_default_project
 
   def stop
+    return if name == Constants::DEFAULT_PROJECT_NAME
     update(stopped_at: DateTime.current)
   end
 
@@ -39,5 +42,11 @@ class Project < ApplicationRecord
 
   def stopped?
     stopped_at?
+  end
+
+  private
+
+  def protect_default_project
+    throw :abort if name == Constants::DEFAULT_PROJECT_NAME
   end
 end
