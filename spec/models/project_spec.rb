@@ -30,10 +30,21 @@ RSpec.describe Project, type: :model do
 
   describe '#stop' do
     subject { project.stop }
-    let!(:project) { create :project }
 
-    it 'プロジェクトを停止する' do
-      expect { subject }.to change { project.stopped_at? }.from(false).to(true)
+    context 'デフォルトプロジェクトの時' do
+      let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
+
+      it 'プロジェクトを停止しない' do
+        expect { subject }.not_to change { project.stopped_at? }
+      end
+    end
+
+    context 'デフォルトプロジェクトでない時' do
+      let!(:project) { create :project, name: 'not default project' }
+
+      it 'プロジェクトを停止する' do
+        expect { subject }.to change { project.stopped_at? }.from(false).to(true)
+      end
     end
   end
 
@@ -62,6 +73,26 @@ RSpec.describe Project, type: :model do
 
       it 'false を返す' do
         expect(subject).to be_falsy
+      end
+    end
+  end
+
+  describe '#destroy' do
+    subject { project.destroy }
+
+    context 'デフォルトプロジェクトの時' do
+      let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
+
+      it '削除されない' do
+        expect { subject }.not_to change { Project.count }
+      end
+    end
+
+    context 'デフォルトプロジェクトではない場合' do
+      let!(:project) { create :project, name: 'not default project' }
+
+      it '削除される' do
+        expect { subject }.to change { Project.count }.by(-1)
       end
     end
   end
