@@ -65,4 +65,24 @@ RSpec.describe Project, type: :model do
       end
     end
   end
+
+  describe '#destroy' do
+    subject { project.destroy }
+
+    context 'デフォルトプロジェクトの時' do
+      let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
+
+      it '削除されない' do
+        expect { subject }.not_to change { Project.count }
+      end
+    end
+
+    context 'デフォルトプロジェクトではない場合' do
+      let!(:project) { create :project, name: 'not default project' }
+
+      it '削除される' do
+        expect { subject }.to change { Project.count }.by(-1)
+      end
+    end
+  end
 end
