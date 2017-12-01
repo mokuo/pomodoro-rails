@@ -32,6 +32,7 @@ class Project < ApplicationRecord
   before_destroy :protect_default_project
 
   def stop
+    return if name == Constants::DEFAULT_PROJECT_NAME
     update(stopped_at: DateTime.current)
   end
 
