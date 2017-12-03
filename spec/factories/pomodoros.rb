@@ -18,7 +18,7 @@
 #  fk_rails_...  (task_id => tasks.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :pomodoro do
     task
     box 1
