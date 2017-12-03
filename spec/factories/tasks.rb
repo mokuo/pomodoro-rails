@@ -20,7 +20,7 @@
 #  fk_rails_...  (project_id => projects.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :task do
     project
     name 'テストタスク'
