@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Projects::InProgresses', type: :request do
+  let(:user) { create :user }
+
   before do |example|
     login(user) unless example.metadata[:skip_login]
   end
-  let(:user) { create :user }
 
   describe 'GET /api/v1/projects/in_progresses' do
     subject { get '/api/v1/projects/in_progresses', headers: headers }
