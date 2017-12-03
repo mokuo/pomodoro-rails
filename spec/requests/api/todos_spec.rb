@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Projects', type: :request do
+  let(:user) { create :user }
+
   before do |example|
     login(user) unless example.metadata[:skip_login]
   end
-  let(:user) { create :user }
 
   describe 'GET /api/v1/todos' do
     subject { get '/api/v1/todos', params: params, headers: headers }
@@ -12,10 +13,12 @@ RSpec.describe 'Api::Projects', type: :request do
     let(:today) { Date.today }
     let!(:project) { create :project, user: user }
     let!(:other_project) { create :project, user: user }
+    let!(:other_user_project) { create :project }
     let!(:task1) { create :task, project: project, todo_on: today }
     let!(:task2) { create :task, project: project, todo_on: today }
     let!(:other_task1) { create :task, project: project, todo_on: Date.yesterday }
     let!(:other_task2) { create :task, project: other_project, todo_on:  Date.yesterday }
+    let!(:other_user_tasl) { create :task, project: other_user_project, todo_on: today }
     let!(:pomodoros) { create_list :pomodoro, 2, task: task1 }
 
     before { subject }

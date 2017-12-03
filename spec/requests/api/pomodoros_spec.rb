@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Pomodoros', type: :request do
+  let(:user) { create :user }
+
   before do |example|
-    login unless example.metadata[:skip_login]
+    login(user) unless example.metadata[:skip_login]
   end
 
   describe 'POST /api/v1/tasks/:task_id/pomodoros' do
     subject { post "/api/v1/tasks/#{task_id}/pomodoros", params: params, headers: headers }
-    let!(:task) { create :task }
+    let!(:project) { create :project, user: user }
+    let!(:task) { create :task, project: project }
     let(:headers) { {
       'ACCEPT': 'application/json',
       'CONTENT_TYPE': 'application/json'
@@ -95,12 +98,23 @@ RSpec.describe 'Api::Pomodoros', type: :request do
         let(:task_id) { task.id }
         let(:params) { '{ "box": "square" }' }
       end
+
+      context '他のユーザーのタスクを指定した時' do
+        let!(:other_project) { create :project }
+        let!(:other_task) { create :task, project: other_project }
+        let(:task_id) { other_task.id }
+        let(:params) { '{ "box": "square" }' }
+
+        it_behaves_like '存在しないリソース'
+      end
     end
   end
 
   describe 'PATCH /api/v1/pomodoros/:id' do
     subject { patch "/api/v1/pomodoros/#{pomodoro_id}", params: params, headers: headers }
-    let!(:pomodoro) { create :pomodoro }
+    let!(:project) { create :project, user: user }
+    let!(:task) { create :task, project: project }
+    let!(:pomodoro) { create :pomodoro, task: task }
     let(:headers) { {
       'ACCEPT': 'application/json',
       'CONTENT_TYPE': 'application/json'
@@ -165,12 +179,24 @@ RSpec.describe 'Api::Pomodoros', type: :request do
         let(:pomodoro_id) { pomodoro.id }
         let(:params) { '{ "pomodoro": { "done": true } }' }
       end
+
+      context '他のユーザーのポモドーロを指定した時' do
+        let!(:other_project) { create :project }
+        let!(:other_task) { create :task, project: other_project }
+        let!(:other_pomodoro) { create :pomodoro, task: other_task }
+        let(:pomodoro_id) { other_pomodoro.id }
+        let(:params) { '{ "pomodoro": { "done": true } }' }
+
+        it_behaves_like '存在しないリソース'
+      end
     end
   end
 
   describe 'DELETE /api/v1/pomodoros/:id' do
     subject { delete "/api/v1/pomodoros/#{pomodoro_id}", headers: headers }
-    let!(:pomodoro) { create :pomodoro }
+    let!(:project) { create :project, user: user }
+    let!(:task) { create :task, project: project }
+    let!(:pomodoro) { create :pomodoro, task: task }
     let(:headers) { {
       'ACCEPT': 'application/json'
     } }
@@ -198,6 +224,15 @@ RSpec.describe 'Api::Pomodoros', type: :request do
 
       include_context 'ログインしていない時' do
         let(:pomodoro_id) { pomodoro.id }
+      end
+
+      context '他のユーザーのポモドーロを指定した時' do
+        let!(:other_project) { create :project }
+        let!(:other_task) { create :task, project: other_project }
+        let!(:other_pomodoro) { create :pomodoro, task: other_task }
+        let(:pomodoro_id) { other_pomodoro.id }
+
+        it_behaves_like '存在しないリソース'
       end
     end
   end

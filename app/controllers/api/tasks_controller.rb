@@ -2,7 +2,7 @@ class Api::TasksController < Api::BaseController
   before_action :set_task, only: [:update, :destroy]
 
   def create
-    project = Project.find(params[:project_id])
+    project = current_user.projects.find(params[:project_id])
     @task = project.tasks.create(task_params)
   end
 
@@ -21,6 +21,6 @@ class Api::TasksController < Api::BaseController
   end
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 end

@@ -2,7 +2,7 @@ class Api::PomodorosController < Api::BaseController
   before_action :set_pomodoro, only: [:update, :destroy]
 
   def create
-    task = Task.find(params[:task_id])
+    task = current_user.tasks.find(params[:task_id])
     @pomodoro = task.pomodoros.create(pomodoro_params)
   end
 
@@ -21,6 +21,6 @@ class Api::PomodorosController < Api::BaseController
   end
 
   def set_pomodoro
-    @pomodoro = Pomodoro.find(params[:id])
+    @pomodoro = current_user.pomodoros.find(params[:id])
   end
 end
