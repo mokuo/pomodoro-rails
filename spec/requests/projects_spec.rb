@@ -1,19 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe 'Projects', type: :request do
-  before do |example|
-    login(user)unless example.metadata[:skip_login]
-  end
   let(:user) { create :user }
+
+  before do |example|
+    login(user) unless example.metadata[:skip_login]
+  end
 
   describe 'GET /projects' do
     subject { get '/projects' }
     let!(:projects) { create_list :project, 2, user: user }
 
-    before { subject }
+    before do
+      create_list :project, 2
+      subject
+    end
 
     context '正常系' do
-      it '@projects にプロジェクトを割り当てる' do
+      it '@projects にログインユーザーのプロジェクトのみ割り当てる' do
         expect(assigns(:projects)).to eq projects
       end
 
@@ -49,11 +53,14 @@ RSpec.describe 'Projects', type: :request do
 
   describe 'GET /projects/:id/edit' do
     subject { get "/projects/#{project.id}/edit" }
-    let(:project) { create :project }
 
-    before { subject }
+    before do |example|
+      subject unless example.metadata[:skip_subject]
+    end
 
     context '正常系' do
+      let(:project) { create :project, user: user }
+
       it '@project にプロジェクトを割り当てる' do
         expect(assigns(:project)).to eq project
       end
@@ -64,7 +71,13 @@ RSpec.describe 'Projects', type: :request do
     end
 
     context '異常系' do
-      include_context 'ログインしていない時'
+      include_context 'ログインしていない時' do
+        let(:project) { create :project, user: user }
+      end
+
+      include_context '他のユーザーのリソースを指定した時' do
+        let(:project) { create :project }
+      end
     end
   end
 
@@ -112,11 +125,13 @@ RSpec.describe 'Projects', type: :request do
 
   describe 'PATCH /projects/:id' do
     subject { patch "/projects/#{project.id}", params: params }
-    let!(:project) { create :project, name: 'old name' }
 
-    before { subject }
+    before do |example|
+      subject unless example.metadata[:skip_subject]
+    end
 
     context '正常系' do
+      let!(:project) { create :project, name: 'old name', user: user }
       let(:params) { { project: { name: 'new name' } } }
 
       it 'プロジェクト名を変更する' do
@@ -134,6 +149,7 @@ RSpec.describe 'Projects', type: :request do
 
     context '異常系' do
       context 'プロジェクト名が空の時' do
+        let!(:project) { create :project, name: 'old name', user: user }
         let(:params) { { project: { name: '' }  } }
 
         it 'プロジェクト名を変更しない' do
@@ -146,6 +162,12 @@ RSpec.describe 'Projects', type: :request do
       end
 
       include_context 'ログインしていない時' do
+        let!(:project) { create :project, name: 'old name', user: user }
+        let(:params) { { project: { name: 'new name' } } }
+      end
+
+      include_context '他のユーザーのリソースを指定した時' do
+        let!(:project) { create :project, name: 'old name' }
         let(:params) { { project: { name: 'new name' } } }
       end
     end
@@ -153,14 +175,15 @@ RSpec.describe 'Projects', type: :request do
 
   describe 'DELETE /projects/:id' do
     subject { delete "/projects/#{project.id}" }
-    let!(:project) { create :project }
 
     before do |example|
-      subject unless example.metadata[:skip_before]
+      subject unless example.metadata[:skip_subject]
     end
 
     context '正常系' do
-      it 'プロジェクトを削除する', :skip_before do
+      let!(:project) { create :project, user: user }
+
+      it 'プロジェクトを削除する', :skip_subject do
         expect { subject }.to change { Project.count }.by(-1)
       end
 
@@ -169,6 +192,14 @@ RSpec.describe 'Projects', type: :request do
       end
     end
 
-    include_context 'ログインしていない時'
+    context '異常系' do
+      include_context 'ログインしていない時' do
+        let!(:project) { create :project, user: user }
+      end
+
+      include_context '他のユーザーのリソースを指定した時' do
+        let!(:project) { create :project }
+      end
+    end
   end
 end

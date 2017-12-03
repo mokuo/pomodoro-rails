@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::Tasks', type: :request do
+  let(:user) { create :user }
+
   before do |example|
-    login unless example.metadata[:skip_login]
+    login(user) unless example.metadata[:skip_login]
   end
 
   describe 'POST /api/v1/projects/:project_id/tasks' do
@@ -11,13 +13,13 @@ RSpec.describe 'Api::Tasks', type: :request do
       'ACCEPT': 'application/json',
       'CONTENT_TYPE': 'application/json'
     } }
-    let!(:project) { create :project }
 
     before do |example|
       subject unless example.metadata[:skip_subject]
     end
 
     context '正常系' do
+      let!(:project) { create :project, user: user }
       let(:project_id) { project.id }
       let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
 
@@ -50,6 +52,7 @@ RSpec.describe 'Api::Tasks', type: :request do
 
     context '異常系' do
       context 'パラメーターを指定しない時' do
+        let!(:project) { create :project, user: user }
         let(:project_id) { project.id }
         let(:params) { {} }
 
@@ -61,6 +64,7 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
 
       context '存在しないプロジェクトIDを指定した時' do
+        let!(:project) { create :project, user: user }
         let(:project_id) { 0 }
         let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
 
@@ -72,6 +76,7 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
 
       context 'バリデーションエラーの時' do
+        let!(:project) { create :project, user: user }
         let(:project_id) { project.id }
         let(:params) { '{ "name": "", "todo_on": "" }' }
 
@@ -91,15 +96,23 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
 
       include_context 'ログインしていない時' do
+        let!(:project) { create :project, user: user }
         let(:project_id) { project.id }
         let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
+      end
+
+      context '他のユーザーのプロジェクトを指定した時' do
+        let!(:project) { create :project }
+        let(:project_id) { project.id }
+        let(:params) { '{ "name": "test_task", "todo_on": "2017-11-19" }' }
+
+        it_behaves_like '存在しないリソース'
       end
     end
   end
 
   describe 'PATCH /api/v1/tasks/:id' do
     subject { patch "/api/v1/tasks/#{task_id}", params: params, headers: headers }
-    let!(:task) { create :task, name: 'old task' }
     let(:headers) { {
       'ACCEPT': 'application/json',
       'CONTENT_TYPE': 'application/json'
@@ -108,6 +121,8 @@ RSpec.describe 'Api::Tasks', type: :request do
     before { subject }
 
     context '正常系' do
+      let!(:project) { create :project, user: user }
+      let!(:task) { create :task, name: 'old task', project: project }
       let(:params) { '{ "name": "new task", "done": true }' }
       let(:task_id) { task.id }
 
@@ -144,6 +159,8 @@ RSpec.describe 'Api::Tasks', type: :request do
 
     context '異常系' do
       context 'タスク名が空の時' do
+        let!(:project) { create :project, user: user }
+        let!(:task) { create :task, name: 'old task', project: project }
         let(:params) { '{ "name": "" }' }
         let(:task_id) { task.id }
 
@@ -155,6 +172,8 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
 
       context 'パラメータが指定されない時' do
+        let!(:project) { create :project, user: user }
+        let!(:task) { create :task, name: 'old task', project: project }
         let(:params) { '' }
         let(:task_id) { task.id }
 
@@ -162,6 +181,8 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
 
       context '存在しないタスクIDを指定した時' do
+        let!(:project) { create :project, user: user }
+        let!(:task) { create :task, name: 'old task', project: project }
         let(:params) { '{ "name": "hoge" }' }
         let(:task_id) { 0 }
 
@@ -169,18 +190,30 @@ RSpec.describe 'Api::Tasks', type: :request do
       end
 
       include_context 'ログインしていない時' do
+        let!(:project) { create :project, user: user }
+        let!(:task) { create :task, name: 'old task', project: project }
         let(:params) { '{ "name": "new task", "done": true }' }
         let(:task_id) { task.id }
+      end
+
+      context '他のユーザーのタスクを指定した時' do
+        let!(:project) { create :project }
+        let!(:task) { create :task, name: 'old task', project: project }
+        let(:params) { '{ "name": "new task", "done": true }' }
+        let(:task_id) { task.id }
+
+        it_behaves_like '存在しないリソース'
       end
     end
   end
 
   describe 'DELETE /api/v1/tasks/:id' do
     subject { delete "/api/v1/tasks/#{task_id}", headers: headers }
-    let!(:task) { create :task }
     let(:headers) { {
       'ACCEPT': 'application/json'
     } }
+    let!(:project) { create :project, user: user }
+    let!(:task) { create :task, project: project }
 
     before do |example|
       subject unless example.metadata[:skip_subjct]
@@ -209,6 +242,14 @@ RSpec.describe 'Api::Tasks', type: :request do
 
       include_context 'ログインしていない時' do
         let(:task_id) { task.id }
+      end
+
+      context '他のユーザーのタスクを指定した時' do
+        let!(:other_project) { create :project }
+        let!(:other_task) { create :task, project: other_project }
+        let(:task_id) { other_task.id }
+
+        it_behaves_like '存在しないリソース'
       end
     end
   end
