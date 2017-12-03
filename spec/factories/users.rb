@@ -13,7 +13,7 @@
 #  index_users_on_name  (name)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     name { FFaker::Name.name }
     password "password"
