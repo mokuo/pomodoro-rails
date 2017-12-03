@@ -19,7 +19,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :project do
     user
     name "テストプロジェクト"
