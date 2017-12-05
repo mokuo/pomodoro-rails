@@ -23,7 +23,7 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-  let(:task) { create :task }
+  let(:task) { build :task }
 
   it 'has a valid factory' do
     expect(task).to be_valid
