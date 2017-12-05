@@ -20,7 +20,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  after_save :create_default_project
+  after_create :create_default_project
 
   has_secure_password
 
