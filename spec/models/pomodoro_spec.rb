@@ -21,7 +21,7 @@
 require 'rails_helper'
 
 RSpec.describe Pomodoro, type: :model do
-  let(:pomodoro) { create :pomodoro }
+  let(:pomodoro) { build :pomodoro }
 
   it 'has a valid factory' do
     expect(pomodoro).to be_valid
