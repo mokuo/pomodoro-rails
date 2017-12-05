@@ -44,7 +44,7 @@ bin/rails db:create db:migrate
 ## 開発サーバーの起動
 
 ```
-bundle exec foreman start
+bin/server
 ```
 
 ## テスト実行
