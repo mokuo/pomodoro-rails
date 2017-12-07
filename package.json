@@ -3,11 +3,17 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^3.0.2",
+    "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0-beta",
     "coffeescript": "1.12.7",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.5",
-    "rails-ujs": "^5.1.4"
+    "prop-types": "^15.6.0",
+    "rails-ujs": "^5.1.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.9.1"
