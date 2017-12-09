@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  # TODO: root は本日のTODOシートにする
-  root 'projects#index'
+  root 'todos#index'
   resource :sessions, only: [:new, :create, :destroy]
   resources :projects, except: :show do
     resource :stop, only: [:update, :destroy], module: :projects
   end
+  resources :todos, only: :index
 
   namespace :api do
     scope :v1 do
