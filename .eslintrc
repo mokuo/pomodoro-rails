@@ -4,10 +4,12 @@
       "semi": 0,
       "arrow-parens": 0,
       "comma-dangle": 0,
-      "no-restricted-globals": 0
+      "no-restricted-globals": 0,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
     },
     "globals": {
       "window": true,
-      "location": true
+      "location": true,
+      "document": true
     }
 }
