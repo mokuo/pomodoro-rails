@@ -1,9 +1,11 @@
-const initialState = {
-  projects: window.projects
-}
+import { combineReducers } from 'redux'
 
-function todosReducer(state = initialState, action) {
+function projects(state = window.projects, action) {
   return state
 }
+
+const todosReducer = combineReducers({
+  projects
+})
 
 export default todosReducer
