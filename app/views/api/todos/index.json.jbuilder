@@ -3,7 +3,7 @@ json.partial! 'api/shared/no_error'
 json.projects @projects do |project|
   json.id project.id
   json.name project.name
-  json.tasks project.tasks do |task|
+  json.tasks project.tasks.where(todo_on: @date).preload(:pomodoros) do |task|
     json.id task.id
     json.name task.name
     json.done task.done

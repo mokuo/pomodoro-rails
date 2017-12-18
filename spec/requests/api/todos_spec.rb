@@ -18,7 +18,7 @@ RSpec.describe 'Api::Projects', type: :request do
     let!(:task2) { create :task, project: project, todo_on: today }
     let!(:other_task1) { create :task, project: project, todo_on: Date.yesterday }
     let!(:other_task2) { create :task, project: other_project, todo_on:  Date.yesterday }
-    let!(:other_user_tasl) { create :task, project: other_user_project, todo_on: today }
+    let!(:other_user_task) { create :task, project: other_user_project, todo_on: today }
     let!(:pomodoros) { create_list :pomodoro, 2, task: task1 }
 
     before { subject }
@@ -35,28 +35,28 @@ RSpec.describe 'Api::Projects', type: :request do
       end
 
       it 'タスクの属性を返す' do
-        expect(response.body).to have_json_type(Integer).at_path('projects/0/tasks/0/id')
-        expect(response.body).to have_json_type(String).at_path('projects/0/tasks/0/name')
-        expect(response.body).to have_json_type(FalseClass).at_path('projects/0/tasks/0/done')
-        expect(response.body).to have_json_type(Array).at_path('projects/0/tasks/0/pomodoros')
+        expect(response.body).to have_json_type(Integer).at_path('projects/1/tasks/0/id')
+        expect(response.body).to have_json_type(String).at_path('projects/1/tasks/0/name')
+        expect(response.body).to have_json_type(FalseClass).at_path('projects/1/tasks/0/done')
+        expect(response.body).to have_json_type(Array).at_path('projects/1/tasks/0/pomodoros')
       end
 
       it 'ポモドーロの属性を返す' do
-        expect(response.body).to have_json_type(Integer).at_path('projects/0/tasks/0/pomodoros/0/id')
-        expect(response.body).to have_json_type(String).at_path('projects/0/tasks/0/pomodoros/0/box')
-        expect(response.body).to have_json_type(FalseClass).at_path('projects/0/tasks/0/pomodoros/0/done')
+        expect(response.body).to have_json_type(Integer).at_path('projects/1/tasks/0/pomodoros/0/id')
+        expect(response.body).to have_json_type(String).at_path('projects/1/tasks/0/pomodoros/0/box')
+        expect(response.body).to have_json_type(FalseClass).at_path('projects/1/tasks/0/pomodoros/0/done')
       end
 
-      it '指定された日付のタスクが紐づいたプロジェクトのみ返す' do
-        expect(response.body).to have_json_size(1).at_path('projects')
+      it '進行中のプロジェクトを全て返す' do
+        expect(response.body).to have_json_size(3).at_path('projects') # デフォルトプロジェクトも含む
       end
 
       it '指定された日付のタスクのみ返す' do
-        expect(response.body).to have_json_size(2).at_path('projects/0/tasks')
+        expect(response.body).to have_json_size(2).at_path('projects/1/tasks')
       end
 
       it '正しい数のポモドーロを返す' do
-        expect(response.body).to have_json_size(2).at_path('projects/0/tasks/0/pomodoros')
+        expect(response.body).to have_json_size(2).at_path('projects/1/tasks/0/pomodoros')
       end
     end
 
