@@ -25,18 +25,6 @@ RSpec.describe 'Todos', type: :request do
       it '@projects にログインユーザーかつ進行中のプロジェクトのみ割り当てる' do
         expect(assigns(:projects).size).to eq 5 # others も加わる
       end
-
-      it '@todos にタスクが紐づいているプロジェクトのみ割り当てる' do
-        expect(assigns(:todos).size).to eq 1
-      end
-
-      it '@todos に今日のタスクのみ割り当てる' do
-        expect(assigns(:todos).first.tasks.size).to eq 3
-      end
-
-      it '@todos に pomodoro を割り当てる' do
-        expect(assigns(:todos).first.tasks.first.pomodoros.size).to eq 3
-      end
     end
 
     context '異常系' do
