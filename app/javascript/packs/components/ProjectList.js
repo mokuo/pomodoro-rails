@@ -5,11 +5,9 @@ import Project from './Project'
 const ProjectList = props =>
   (
     <table className="table table">
-      <tbody>
-        {props.projects.map(project => (
-          <Project key={project.id} {...project} />
-        ))}
-      </tbody>
+      {props.projects.map(project => (
+        <Project key={project.id} {...project} />
+      ))}
     </table>
   )
 
