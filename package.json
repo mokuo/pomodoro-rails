@@ -6,6 +6,7 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0-beta",
     "coffeescript": "1.12.7",
+    "immutable": "^3.8.2",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.5",
     "prop-types": "^15.6.0",
@@ -16,6 +17,11 @@
     "redux": "^3.7.2"
   },
   "devDependencies": {
+    "eslint": "^4.13.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
     "webpack-dev-server": "^2.9.1"
   }
 }
