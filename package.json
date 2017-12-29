@@ -5,6 +5,7 @@
     "@rails/webpacker": "^3.0.2",
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0-beta",
+    "bootstrap4-datetimepicker": "^5.2.3",
     "coffeescript": "1.12.7",
     "immutable": "^3.8.2",
     "jquery": "^3.2.1",
