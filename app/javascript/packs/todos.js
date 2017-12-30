@@ -3,13 +3,15 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import todosReducer from './reducers/todos'
-import Todos from './containers/Todos'
+import TodoApp from './components/TodoApp'
 
 const store = createStore(todosReducer)
 
+console.log(store.getState());
+
 render(
   <Provider store={store}>
-    <Todos />
+    <TodoApp />
   </Provider>,
   document.getElementById('todos')
 )

@@ -7,8 +7,16 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+
 import 'src/application'
 import 'bootstrap/dist/js/bootstrap'
+import 'bootstrap4-datetimepicker/src/js/bootstrap-datetimepicker'
+import Rails from 'rails-ujs'
 
-import Rails from 'rails-ujs';
-Rails.start();
+Rails.start()
+
+$(() => {
+  $('#datetimepicker4').datetimepicker({
+    format: 'YYYY/MM/DD'
+  })
+})

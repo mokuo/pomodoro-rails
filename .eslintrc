@@ -11,5 +11,8 @@
       "window": true,
       "location": true,
       "document": true
+    },
+    "env": {
+      "jquery": true
     }
 }
