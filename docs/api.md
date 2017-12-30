@@ -147,6 +147,7 @@ curl -X GET \
   "error": {
     "code": 0
   },
+  "date": "2017-11-02",
   "projects": [
     {
       "id": 1,
