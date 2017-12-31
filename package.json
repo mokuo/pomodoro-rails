@@ -6,6 +6,7 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0-beta",
     "coffeescript": "1.12.7",
+    "date-fns": "^1.29.0",
     "immutable": "^3.8.2",
     "jquery": "^3.2.1",
     "popper.js": "^1.12.5",
