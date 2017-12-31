@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import DateNavigation from '../components/DateNavigation'
+import { previousDate, nextDate } from '../actions/date'
 
 const mapStateToProps = state => (
   {
@@ -7,16 +8,16 @@ const mapStateToProps = state => (
   }
 )
 
-const mapDispatchToProps = () => {
-  return {
+const mapDispatchToProps = dispatch => (
+  {
     onPreviousClick: () => {
-      console.log('Previous!!')
+      dispatch(previousDate())
     },
     onNextClick: () => {
-      console.log('Next!!')
+      dispatch(nextDate())
     }
   }
-}
+)
 
 const SelectableDateNavigation = connect(
   mapStateToProps,
