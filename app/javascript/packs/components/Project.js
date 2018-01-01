@@ -6,7 +6,12 @@ const Project = props =>
   (
     <tbody>
       <tr className="table-primary">
-        <th colSpan="10">{props.name}</th>
+        <th colSpan="10">
+          {props.name}
+          <a href="#" className="ml-2">
+            <span className="oi oi-plus" title="plus" aria-hidden="true" />
+          </a>
+        </th>
       </tr>
       {props.tasks.map(task => (
         <Task key={task.id} {...task} />
