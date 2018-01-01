@@ -11,24 +11,24 @@ const mapStateToProps = state => (
   }
 )
 
-const mapDispatchToProps = dispatch => (
-  {
+const mapDispatchToProps = dispatch => {
+  const shiftDate = day => {
+    const date = document.getElementById('date').text
+    const previousDate = addDays(date, day)
+    const formattedDate = format(previousDate, 'YYYY-MM-DD')
+    dispatch(changeDate(formattedDate))
+    dispatch(fetchTodos(formattedDate))
+  }
+
+  return {
     onPreviousClick: () => {
-      const date = document.getElementById('date').text
-      const previousDate = addDays(date, -1)
-      const formattedDate = format(previousDate, 'YYYY-MM-DD')
-      dispatch(changeDate(formattedDate))
-      dispatch(fetchTodos(formattedDate))
+      shiftDate(-1)
     },
     onNextClick: () => {
-      const date = document.getElementById('date').text
-      const previousDate = addDays(date, 1)
-      const formattedDate = format(previousDate, 'YYYY-MM-DD')
-      dispatch(changeDate(formattedDate))
-      dispatch(fetchTodos(formattedDate))
+      shiftDate(1)
     }
   }
-)
+}
 
 const SelectableDateNavigation = connect(
   mapStateToProps,
