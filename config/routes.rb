@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
   resources :todos, only: :index
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     scope :v1 do
       resources :projects, only: [:index] do
         resources :tasks, only: [:create, :update, :destroy], shallow: true do

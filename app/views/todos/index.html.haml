@@ -1,4 +1,5 @@
 #todos
 = javascript_tag do
+  window.date = #{ raw Date.current.to_json }
   window.projects = #{ raw render 'api/shared/projects.json.jbuilder', projects: @projects, date: Date.current }
-= javascript_pack_tag 'todos'
+= javascript_pack_tag 'index'

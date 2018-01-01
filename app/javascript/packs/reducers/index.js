@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux'
-
-function projects(state = window.projects, action) {
-  return state
-}
+import date from './date'
+import projects from './projects'
 
 const todosReducer = combineReducers({
+  date,
   projects
 })
 

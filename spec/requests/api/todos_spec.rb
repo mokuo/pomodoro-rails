@@ -28,6 +28,10 @@ RSpec.describe 'Api::Projects', type: :request do
 
       it_behaves_like '処理成功'
 
+      it '指定した日付を返す' do
+        expect(response.body).to be_json_eql(today.to_json).at_path('date')
+      end
+
       it 'プロジェクトの属性を返す' do
         expect(response.body).to have_json_type(Integer).at_path('projects/0/id')
         expect(response.body).to have_json_type(String).at_path('projects/0/name')
