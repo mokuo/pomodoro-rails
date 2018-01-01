@@ -1,6 +1,9 @@
 import { connect } from 'react-redux'
+import addDays from 'date-fns/add_days'
+import format from 'date-fns/format'
 import DateNavigation from '../components/DateNavigation'
-import { previousDate, nextDate } from '../actions/date'
+import { changeDate } from '../actions/date'
+import { fetchTodos } from '../actions/todos'
 
 const mapStateToProps = state => (
   {
@@ -11,10 +14,18 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     onPreviousClick: () => {
-      dispatch(previousDate())
+      const date = document.getElementById('date').text
+      const previousDate = addDays(date, -1)
+      const formattedDate = format(previousDate, 'YYYY-MM-DD')
+      dispatch(changeDate(formattedDate))
+      dispatch(fetchTodos(formattedDate))
     },
     onNextClick: () => {
-      dispatch(nextDate())
+      const date = document.getElementById('date').text
+      const previousDate = addDays(date, 1)
+      const formattedDate = format(previousDate, 'YYYY-MM-DD')
+      dispatch(changeDate(formattedDate))
+      dispatch(fetchTodos(formattedDate))
     }
   }
 )

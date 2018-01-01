@@ -20,7 +20,7 @@ const DateNavigation = props =>
           </a>
         </li>
         <li className="page-item disabled">
-          <a className="page-link" href="">{props.date}</a>
+          <a className="page-link" href="" id="date">{props.date}</a>
         </li>
         <li className="page-item">
           <a

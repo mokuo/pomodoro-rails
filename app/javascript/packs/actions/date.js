@@ -1,11 +1,6 @@
-export const previousDate = () => (
+export const changeDate = date => (
   {
-    type: 'PREVIOUS_DATE'
-  }
-)
-
-export const nextDate = () => (
-  {
-    type: 'NEXT_DATE'
+    type: 'CHANGE_DATE',
+    date
   }
 )
