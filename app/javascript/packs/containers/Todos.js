@@ -1,16 +1,18 @@
 import { connect } from 'react-redux'
 import ProjectList from '../components/ProjectList'
+import { newTask } from '../actions/tasks'
 
 const mapStateToProps = state => (
   {
-    projects: state.projects
+    projects: state.projects,
+    operation: state.operation
   }
 )
 
-const mapDispatchToProps = () => (
+const mapDispatchToProps = dispatch => (
   {
     onPlusClick: projectId => {
-      console.log(projectId);
+      dispatch(newTask(projectId))
     }
   }
 )

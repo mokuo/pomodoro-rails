@@ -7,7 +7,18 @@ const initialState = {
 }
 
 const operation = (state = initialState, action) => {
-  return state
+  switch (action.type) {
+    case 'NEW_TASK':
+      return {
+        type: 'new',
+        object: 'task',
+        projectId: action.projectId,
+        taskId: null,
+        pomodoroId: null
+      }
+    default:
+      return state
+  }
 }
 
 export default operation
