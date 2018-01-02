@@ -6,7 +6,7 @@ const ProjectList = props =>
   (
     <table className="table table">
       {props.projects.map(project => (
-        <Project key={project.id} {...project} />
+        <Project key={project.id} {...project} onPlusClick={() => props.onPlusClick(project.id)} />
       ))}
     </table>
   )

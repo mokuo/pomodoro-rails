@@ -8,7 +8,14 @@ const Project = props =>
       <tr className="table-primary">
         <th colSpan="10">
           {props.name}
-          <a href="#" className="ml-2">
+          <a
+            href=""
+            className="ml-2"
+            onClick={e => {
+              e.preventDefault()
+              props.onPlusClick()
+            }}
+          >
             <span className="oi oi-plus" title="plus" aria-hidden="true" />
           </a>
         </th>
@@ -21,7 +28,8 @@ const Project = props =>
 
 Project.propTypes = {
   name: PropTypes.string.isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.object).isRequired
+  tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onPlusClick: PropTypes.func.isRequired
 }
 
 export default Project

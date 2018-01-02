@@ -7,6 +7,18 @@ const mapStateToProps = state => (
   }
 )
 
-const Todos = connect(mapStateToProps)(ProjectList)
+const mapDispatchToProps = () => (
+  {
+    onPlusClick: projectId => {
+      console.log(projectId);
+    }
+  }
+)
+
+
+const Todos = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProjectList)
 
 export default Todos
