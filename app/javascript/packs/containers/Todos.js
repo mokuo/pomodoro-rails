@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import ProjectList from '../components/ProjectList'
-import { newTask } from '../actions/tasks'
+import { newTask, createTask } from '../actions/tasks'
+import { finishOperation } from '../actions/operation'
 
 const mapStateToProps = state => (
   {
@@ -13,6 +14,11 @@ const mapDispatchToProps = dispatch => (
   {
     onPlusClick: projectId => {
       dispatch(newTask(projectId))
+    },
+    onCreateTask: (projectId, name) => {
+      const todoOn = document.getElementById('date').text
+      dispatch(createTask(projectId, name, todoOn))
+      dispatch(finishOperation())
     }
   }
 )

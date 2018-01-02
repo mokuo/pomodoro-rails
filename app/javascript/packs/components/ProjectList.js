@@ -8,9 +8,10 @@ const ProjectList = props =>
       {props.projects.map(project => (
         <Project
           key={project.id}
-          onPlusClick={() => props.onPlusClick(project.id)}
           {...project}
           operation={props.operation}
+          onPlusClick={props.onPlusClick}
+          onCreateTask={props.onCreateTask}
         />
       ))}
     </table>
@@ -24,7 +25,9 @@ ProjectList.propTypes = {
     projectId: PropTypes.number,
     taskId: PropTypes.number,
     pomodoroId: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  onPlusClick: PropTypes.func.isRequired,
+  onCreateTask: PropTypes.func.isRequired
 }
 
 export default ProjectList

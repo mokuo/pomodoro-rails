@@ -16,6 +16,8 @@ const operation = (state = initialState, action) => {
         taskId: null,
         pomodoroId: null
       }
+    case 'FINISH_OPERATION':
+      return initialState
     default:
       return state
   }

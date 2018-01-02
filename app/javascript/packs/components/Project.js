@@ -4,11 +4,23 @@ import Task from './Task'
 
 const Project = props => {
   let newTask = null
-  if (props.operation.type === 'new' && props.operation.object === 'task' && props.operation.projectId === props.id) {
+
+  if (
+    props.operation.type === 'new' &&
+    props.operation.object === 'task' &&
+    props.operation.projectId === props.id
+  ) {
     newTask = (
       <tr>
         <td className="pl-4" width="10" />
-        <td><input type="text" className="form-control" /></td>
+        <td>
+          <input
+            type="text"
+            className="form-control"
+            onBlur={e => props.onCreateTask(props.id, e.target.value)}
+            autoFocus
+          />
+        </td>
       </tr>
     )
   }
@@ -23,7 +35,7 @@ const Project = props => {
             className="ml-2"
             onClick={e => {
               e.preventDefault()
-              props.onPlusClick()
+              props.onPlusClick(props.id)
             }}
           >
             <span className="oi oi-plus" title="plus" aria-hidden="true" />
@@ -47,7 +59,8 @@ Project.propTypes = {
     type: PropTypes.string,
     object: PropTypes.string,
     projectId: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  onCreateTask: PropTypes.func.isRequired
 }
 
 export default Project
