@@ -23,13 +23,13 @@ const Project = props => {
                 props.onFinishOperation()
                 return
               }
-              props.onCreateTask(props.id, taskName)
+              props.onCreateTask(props.id, taskName, props.date)
             }}
             onKeyPress={e => {
               const taskName = e.target.value
               if (taskName.trim() === '') { return }
               if (e.key === 'Enter') {
-                props.onCreateTask(props.id, taskName)
+                props.onCreateTask(props.id, taskName, props.date)
               }
             }}
             autoFocus
@@ -68,12 +68,13 @@ Project.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onPlusClick: PropTypes.func.isRequired,
   operation: PropTypes.shape({
     type: PropTypes.string,
     object: PropTypes.string,
     projectId: PropTypes.number
   }).isRequired,
+  date: PropTypes.string.isRequired,
+  onPlusClick: PropTypes.func.isRequired,
   onCreateTask: PropTypes.func.isRequired,
   onFinishOperation: PropTypes.func.isRequired
 }

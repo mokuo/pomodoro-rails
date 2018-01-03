@@ -6,7 +6,8 @@ import { finishOperation } from '../actions/operation'
 const mapStateToProps = state => (
   {
     projects: state.projects,
-    operation: state.operation
+    operation: state.operation,
+    date: state.date
   }
 )
 
@@ -15,8 +16,7 @@ const mapDispatchToProps = dispatch => (
     onPlusClick: projectId => {
       dispatch(newTask(projectId))
     },
-    onCreateTask: (projectId, name) => {
-      const todoOn = document.getElementById('date').text
+    onCreateTask: (projectId, name, todoOn) => {
       dispatch(createTask(projectId, name, todoOn))
       dispatch(finishOperation())
     },

@@ -10,6 +10,7 @@ const ProjectList = props =>
           key={project.id}
           {...project}
           operation={props.operation}
+          date={props.date}
           onPlusClick={props.onPlusClick}
           onCreateTask={props.onCreateTask}
           onFinishOperation={props.onFinishOperation}
@@ -27,6 +28,7 @@ ProjectList.propTypes = {
     taskId: PropTypes.number,
     pomodoroId: PropTypes.number
   }).isRequired,
+  date: PropTypes.string.isRequired,
   onPlusClick: PropTypes.func.isRequired,
   onCreateTask: PropTypes.func.isRequired,
   onFinishOperation: PropTypes.func.isRequired
