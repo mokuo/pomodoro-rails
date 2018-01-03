@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 const Alert = props => {
   let alertDanger = null
 
-  const errorMessages = props.error.messages.map(msg => <span>{msg}<br /></span>)
+  const errorMessages = props.error.messages.map(msg => <p className="mb-0">{msg}</p>)
 
   if (props.error.code !== 0) {
     alertDanger = (
       <div className="alert alert-danger" role="alert">
-        <span>エラーコード : {props.error.code}<br /></span>
+        <p className="mb-0">エラーコード : {props.error.code}</p>
         {errorMessages}
       </div>
     )
