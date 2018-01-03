@@ -24,7 +24,7 @@ const Project = props => {
               }
               props.onCreateTask(props.id, taskName)
             }}
-            onKeyDown={e => {
+            onKeyPress={e => {
               const taskName = e.target.value
               if (taskName.trim() === '') { return }
               if (e.key === 'Enter') {
