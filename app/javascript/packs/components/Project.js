@@ -20,7 +20,8 @@ const Project = props => {
             onBlur={e => {
               const taskName = e.target.value
               if (taskName.trim() === '') {
-                return props.onFinishOperation()
+                props.onFinishOperation()
+                return
               }
               props.onCreateTask(props.id, taskName)
             }}
