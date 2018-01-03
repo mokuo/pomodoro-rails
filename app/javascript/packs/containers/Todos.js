@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => (
       const todoOn = document.getElementById('date').text
       dispatch(createTask(projectId, name, todoOn))
       dispatch(finishOperation())
-    }
+    },
+    onFinishOperation: () => dispatch(finishOperation())
   }
 )
 

@@ -12,6 +12,7 @@ const ProjectList = props =>
           operation={props.operation}
           onPlusClick={props.onPlusClick}
           onCreateTask={props.onCreateTask}
+          onFinishOperation={props.onFinishOperation}
         />
       ))}
     </table>
@@ -27,7 +28,8 @@ ProjectList.propTypes = {
     pomodoroId: PropTypes.number
   }).isRequired,
   onPlusClick: PropTypes.func.isRequired,
-  onCreateTask: PropTypes.func.isRequired
+  onCreateTask: PropTypes.func.isRequired,
+  onFinishOperation: PropTypes.func.isRequired
 }
 
 export default ProjectList

@@ -17,10 +17,18 @@ const Project = props => {
           <input
             type="text"
             className="form-control"
-            onBlur={e => props.onCreateTask(props.id, e.target.value)}
+            onBlur={e => {
+              const taskName = e.target.value
+              if (taskName.trim() === '') {
+                return props.onFinishOperation()
+              }
+              props.onCreateTask(props.id, taskName)
+            }}
             onKeyDown={e => {
+              const taskName = e.target.value
+              if (taskName.trim() === '') { return }
               if (e.key === 'Enter') {
-                props.onCreateTask(props.id, e.target.value)
+                props.onCreateTask(props.id, taskName)
               }
             }}
             autoFocus
@@ -65,7 +73,8 @@ Project.propTypes = {
     object: PropTypes.string,
     projectId: PropTypes.number
   }).isRequired,
-  onCreateTask: PropTypes.func.isRequired
+  onCreateTask: PropTypes.func.isRequired,
+  onFinishOperation: PropTypes.func.isRequired
 }
 
 export default Project
