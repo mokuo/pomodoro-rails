@@ -18,6 +18,11 @@ const Project = props => {
             type="text"
             className="form-control"
             onBlur={e => props.onCreateTask(props.id, e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                props.onCreateTask(props.id, e.target.value)
+              }
+            }}
             autoFocus
           />
         </td>
