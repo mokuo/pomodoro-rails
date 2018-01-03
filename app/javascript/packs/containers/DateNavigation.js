@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import addDays from 'date-fns/add_days'
 import format from 'date-fns/format'
-import DateNavigation from '../components/DateNavigation'
+import Navigation from '../components/Navigation'
 import { changeDate } from '../actions/date'
 import { fetchTodos } from '../actions/todos'
 
@@ -30,9 +30,9 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const SelectableDateNavigation = connect(
+const DateNavigation = connect(
   mapStateToProps,
   mapDispatchToProps
-)(DateNavigation)
+)(Navigation)
 
-export default SelectableDateNavigation
+export default DateNavigation

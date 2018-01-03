@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const DateNavigation = props =>
+const Navigation = props =>
   (
     <nav aria-label="Date navigation">
       <ul className="pagination justify-content-center">
@@ -40,10 +40,10 @@ const DateNavigation = props =>
     </nav>
   )
 
-DateNavigation.propTypes = {
+Navigation.propTypes = {
   onPreviousClick: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
   onNextClick: PropTypes.func.isRequired
 }
 
-export default DateNavigation
+export default Navigation
