@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { receiveError } from './error'
 
 export const newTask = projectId => (
   {
@@ -27,7 +28,11 @@ export const createTask = (projectId, name, todoOn) => (
       todo_on: todoOn
     })
       .then(response => {
-        dispatch(receiveTask(response.data.task))
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(receiveTask(response.data.task))
+        }
       })
   }
 )
