@@ -14,6 +14,7 @@ const ProjectList = props =>
           onPlusClick={props.onPlusClick}
           onCreateTask={props.onCreateTask}
           onFinishOperation={props.onFinishOperation}
+          onXClick={props.onXClick}
         />
       ))}
     </table>
@@ -31,7 +32,8 @@ ProjectList.propTypes = {
   date: PropTypes.string.isRequired,
   onPlusClick: PropTypes.func.isRequired,
   onCreateTask: PropTypes.func.isRequired,
-  onFinishOperation: PropTypes.func.isRequired
+  onFinishOperation: PropTypes.func.isRequired,
+  onXClick: PropTypes.func.isRequired
 }
 
 export default ProjectList
