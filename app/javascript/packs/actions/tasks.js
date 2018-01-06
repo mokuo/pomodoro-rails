@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { receiveError } from './error'
+import { closeModal } from './modals'
 
 export const newTask = projectId => (
   {
@@ -32,6 +33,27 @@ export const createTask = (projectId, name, todoOn) => (
         dispatch(receiveError(error))
         if (error.code === 0) {
           dispatch(receiveTask(response.data.task))
+        }
+      })
+  }
+)
+
+const finishTaskDeletion = id => (
+  {
+    type: 'END_TASK_DELETION',
+    id
+  }
+)
+
+export const deleteTask = id => (
+  dispatch => {
+    axios.delete(`/api/v1/tasks/${id}`)
+      .then(response => {
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(finishTaskDeletion(id))
+          dispatch(closeModal())
         }
       })
   }

@@ -22,7 +22,7 @@ const Task = props => {
           href=""
           onClick={e => {
             e.preventDefault()
-            props.onXClick(props.id)
+            props.onXClick(props.id, props.name)
           }}
         >
           <span className="oi oi-x" title="x" aria-hidden="true" />

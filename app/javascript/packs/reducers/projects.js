@@ -14,6 +14,17 @@ const projects = (state = window.projects, action) => {
       })
       return updatedImmutableState.toJS()
     }
+    case 'END_TASK_DELETION': {
+      const immutableState = fromJS(state)
+      const updatedImmutableState = immutableState.map(project => {
+        const index = project.get('tasks').findKey(task => task.get('id') === action.id)
+        if (index === undefined) {
+          return project
+        }
+        return project.updateIn(['tasks'], tasks => tasks.delete(index))
+      })
+      return updatedImmutableState.toJS()
+    }
     default:
       return state
   }
