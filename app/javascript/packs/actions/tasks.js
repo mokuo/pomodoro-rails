@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { receiveError } from './error'
-import { closeModal } from './modals'
 
 export const newTask = projectId => (
   {
@@ -53,7 +52,6 @@ export const deleteTask = id => (
         dispatch(receiveError(error))
         if (error.code === 0) {
           dispatch(finishTaskDeletion(id))
-          dispatch(closeModal())
         }
       })
   }

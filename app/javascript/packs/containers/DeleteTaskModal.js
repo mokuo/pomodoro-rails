@@ -13,7 +13,15 @@ const RawDeleteTaskModal = props =>
         {props.taskName}
       </ModalBody>
       <ModalFooter>
-        <Button color="danger" onClick={() => props.deleteTask(props.taskId)}>削除</Button>
+        <Button
+          color="danger"
+          onClick={() => {
+            props.closeModal()
+            props.deleteTask(props.taskId)
+          }}
+        >
+          削除
+        </Button>
         <Button color="secondary" onClick={props.closeModal}>キャンセル</Button>
       </ModalFooter>
     </Modal>
