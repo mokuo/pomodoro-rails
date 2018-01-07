@@ -40,7 +40,7 @@ export const createTask = (projectId, name, todoOn) => (
 
 const finishTaskDeletion = id => (
   {
-    type: 'END_TASK_DELETION',
+    type: 'FINISH_TASK_DELETION',
     id
   }
 )
