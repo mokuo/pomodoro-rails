@@ -7,17 +7,17 @@ import { deleteTask } from '../actions/tasks'
 
 const RawDeleteTaskModal = props =>
   (
-    <Modal isOpen={props.isOpen} toggle={props.closeModal}>
+    <Modal isOpen={props.modal.isOpen} toggle={props.closeModal}>
       <ModalHeader toggle={props.closeModal}>タスクを削除してよろしいですか？</ModalHeader>
       <ModalBody>
-        {props.taskName}
+        {props.modal.taskName}
       </ModalBody>
       <ModalFooter>
         <Button
           color="danger"
           onClick={() => {
+            props.deleteTask(props.modal.taskId)
             props.closeModal()
-            props.deleteTask(props.taskId)
           }}
         >
           削除
@@ -28,23 +28,18 @@ const RawDeleteTaskModal = props =>
   )
 
 RawDeleteTaskModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  taskId: PropTypes.number,
-  taskName: PropTypes.string,
+  modal: PropTypes.shape({
+    isOpen: PropTypes.bool.isRquired,
+    taskId: PropTypes.number,
+    taskName: PropTypes.string
+  }).isRequired,
   closeModal: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired
 }
 
-RawDeleteTaskModal.defaultProps = {
-  taskId: null,
-  taskName: null
-}
-
 const mapStateToProps = state => (
   {
-    isOpen: state.modals.getIn(['deleteTaskModal', 'isOpen']),
-    taskId: state.modals.getIn(['deleteTaskModal', 'taskId']),
-    taskName: state.modals.getIn(['deleteTaskModal', 'taskName'])
+    modal: state.modals.get('deleteTaskModal').toJS()
   }
 )
 
