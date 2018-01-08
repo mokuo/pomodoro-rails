@@ -56,3 +56,33 @@ export const deleteTask = id => (
       })
   }
 )
+
+export const editTask = id => (
+  {
+    type: 'EDIT_TASK',
+    id
+  }
+)
+
+const finishTaskUpdate = (id, name) => (
+  {
+    type: 'FINISH_TASK_UPDATE',
+    id,
+    name
+  }
+)
+
+export const updateTask = (id, name) => (
+  dispatch => {
+    axios.patch(`/api/v1/tasks/${id}`, {
+      name
+    })
+      .then(response => {
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(finishTaskUpdate(id, name))
+        }
+      })
+  }
+)

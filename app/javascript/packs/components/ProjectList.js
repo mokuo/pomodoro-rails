@@ -15,6 +15,8 @@ const ProjectList = props =>
           onCreateTask={props.onCreateTask}
           onFinishOperation={props.onFinishOperation}
           onXClick={props.onXClick}
+          onTaskClick={props.onTaskClick}
+          onUpdateTask={props.onUpdateTask}
         />
       ))}
     </table>
@@ -33,7 +35,9 @@ ProjectList.propTypes = {
   onPlusClick: PropTypes.func.isRequired,
   onCreateTask: PropTypes.func.isRequired,
   onFinishOperation: PropTypes.func.isRequired,
-  onXClick: PropTypes.func.isRequired
+  onXClick: PropTypes.func.isRequired,
+  onTaskClick: PropTypes.func.isRequired,
+  onUpdateTask: PropTypes.func.isRequired
 }
 
 export default ProjectList

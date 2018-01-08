@@ -57,7 +57,15 @@ const Project = props => {
         </th>
       </tr>
       {props.tasks.map(task => (
-        <Task key={task.id} {...task} onXClick={props.onXClick} />
+        <Task
+          key={task.id}
+          {...task}
+          operation={props.operation}
+          onXClick={props.onXClick}
+          onTaskClick={props.onTaskClick}
+          onFinishOperation={props.onFinishOperation}
+          onUpdateTask={props.onUpdateTask}
+        />
       ))}
       {newTask}
     </tbody>
@@ -77,7 +85,9 @@ Project.propTypes = {
   onPlusClick: PropTypes.func.isRequired,
   onCreateTask: PropTypes.func.isRequired,
   onFinishOperation: PropTypes.func.isRequired,
-  onXClick: PropTypes.func.isRequired
+  onXClick: PropTypes.func.isRequired,
+  onTaskClick: PropTypes.func.isRequired,
+  onUpdateTask: PropTypes.func.isRequired
 }
 
 export default Project

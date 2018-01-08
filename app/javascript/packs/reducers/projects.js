@@ -17,6 +17,15 @@ const projects = (state = fromJS(window.projects), action) => {
         return project.updateIn(['tasks'], tasks => tasks.delete(index))
       })
     }
+    case 'FINISH_TASK_UPDATE': {
+      return state.map(project => {
+        const index = project.get('tasks').findKey(task => task.get('id') === action.id)
+        if (index === undefined) {
+          return project
+        }
+        return project.updateIn(['tasks'], tasks => tasks.updateIn([index], task => task.set('name', action.name)))
+      })
+    }
     default:
       return state
   }

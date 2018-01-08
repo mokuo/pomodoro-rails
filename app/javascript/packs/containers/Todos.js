@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import ProjectList from '../components/ProjectList'
-import { newTask, createTask } from '../actions/tasks'
+import { newTask, createTask, editTask, updateTask } from '../actions/tasks'
 import { finishOperation } from '../actions/operation'
 import { openDeleteTaskModal } from '../actions/modals'
 
@@ -24,6 +24,12 @@ const mapDispatchToProps = dispatch => (
     onFinishOperation: () => dispatch(finishOperation()),
     onXClick: (taskId, taskName) => {
       dispatch(openDeleteTaskModal(taskId, taskName))
+    },
+    onTaskClick: id => {
+      dispatch(editTask(id))
+    },
+    onUpdateTask: (id, name) => {
+      dispatch(updateTask(id, name))
     }
   }
 )
