@@ -19,17 +19,16 @@ const Project = props => {
             className="form-control"
             onBlur={e => {
               const taskName = e.target.value
-              if (taskName.trim() === '') {
-                props.onFinishOperation()
-                return
+              if (taskName.trim() !== '') {
+                props.createTask(props.id, taskName, props.date)
               }
-              props.onCreateTask(props.id, taskName, props.date)
+              props.finishOperation()
             }}
             onKeyPress={e => {
               const taskName = e.target.value
-              if (taskName.trim() === '') { return }
-              if (e.key === 'Enter') {
-                props.onCreateTask(props.id, taskName, props.date)
+              if (e.key === 'Enter' && taskName.trim() !== '') {
+                props.createTask(props.id, taskName, props.date)
+                props.finishOperation()
               }
             }}
             autoFocus
@@ -57,7 +56,15 @@ const Project = props => {
         </th>
       </tr>
       {props.tasks.map(task => (
-        <Task key={task.id} {...task} onXClick={props.onXClick} />
+        <Task
+          key={task.id}
+          {...task}
+          operation={props.operation}
+          onXClick={props.onXClick}
+          onTaskClick={props.onTaskClick}
+          finishOperation={props.finishOperation}
+          updateTask={props.updateTask}
+        />
       ))}
       {newTask}
     </tbody>
@@ -75,9 +82,11 @@ Project.propTypes = {
   }).isRequired,
   date: PropTypes.string.isRequired,
   onPlusClick: PropTypes.func.isRequired,
-  onCreateTask: PropTypes.func.isRequired,
-  onFinishOperation: PropTypes.func.isRequired,
-  onXClick: PropTypes.func.isRequired
+  createTask: PropTypes.func.isRequired,
+  finishOperation: PropTypes.func.isRequired,
+  onXClick: PropTypes.func.isRequired,
+  onTaskClick: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired
 }
 
 export default Project

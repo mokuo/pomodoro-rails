@@ -16,6 +16,12 @@ const operation = (state = initialState, action) => {
         object: 'task',
         projectId: action.projectId
       })
+    case 'EDIT_TASK':
+      return state.merge({
+        type: 'edit',
+        object: 'task',
+        taskId: action.id
+      })
     case 'FINISH_OPERATION':
       return initialState
     default:
