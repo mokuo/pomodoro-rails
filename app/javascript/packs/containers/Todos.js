@@ -30,8 +30,8 @@ const mapDispatchToProps = dispatch => (
     updateTask: (id, name) => {
       dispatch(updateTask(id, name))
     },
-    onCheck: (id, done) => {
-      dispatch(toggleTask(id, done))
+    onCheck: (id) => {
+      dispatch(toggleTask(id))
     }
   }
 )

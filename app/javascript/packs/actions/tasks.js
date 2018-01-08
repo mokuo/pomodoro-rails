@@ -95,8 +95,16 @@ const finishTaskToggle = (id, done) => (
   }
 )
 
-export const toggleTask = (id, done) => (
-  dispatch => {
+export const toggleTask = id => (
+  (dispatch, getState) => {
+    let done = null
+    getState().projects.forEach(project => {
+      const tasks = project.get('tasks')
+      const index = tasks.findKey(task => task.get('id') === id)
+      if (index !== undefined) {
+        done = !tasks.getIn([index, 'done'])
+      }
+    })
     axios.patch(`/api/v1/tasks/${id}`, {
       done
     })

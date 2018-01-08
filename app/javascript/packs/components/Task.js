@@ -49,7 +49,7 @@ const Task = props => {
       <td className="pl-4" width="10">
         <input
           type="checkbox"
-          onChange={() => props.onCheck(props.id, !props.done)}
+          onChange={() => props.onCheck(props.id)}
           checked={props.done}
         />
       </td>
