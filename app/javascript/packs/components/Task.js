@@ -17,13 +17,26 @@ const Task = props => {
         <Pomodoro key={pomodoro.id} {...pomodoro} />
       ))}
       {emptyPomodoros}
+      <td width="41">
+        <a
+          href=""
+          onClick={e => {
+            e.preventDefault()
+            props.onXClick(props.id, props.name)
+          }}
+        >
+          <span className="oi oi-x" title="x" aria-hidden="true" />
+        </a>
+      </td>
     </tr>
   )
 }
 
 Task.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  pomodoros: PropTypes.arrayOf(PropTypes.object).isRequired
+  pomodoros: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onXClick: PropTypes.func.isRequired
 }
 
 export default Task

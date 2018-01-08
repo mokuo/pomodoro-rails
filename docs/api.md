@@ -167,7 +167,7 @@ curl -X GET \
               "id": 2,
               "box": "circle",
               "done": false
-            },
+            }
           ]
         }
       ]

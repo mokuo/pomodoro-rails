@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ProjectList from '../components/ProjectList'
 import { newTask, createTask } from '../actions/tasks'
 import { finishOperation } from '../actions/operation'
+import { openDeleteTaskModal } from '../actions/modals'
 
 const mapStateToProps = state => (
   {
@@ -20,7 +21,10 @@ const mapDispatchToProps = dispatch => (
       dispatch(createTask(projectId, name, todoOn))
       dispatch(finishOperation())
     },
-    onFinishOperation: () => dispatch(finishOperation())
+    onFinishOperation: () => dispatch(finishOperation()),
+    onXClick: (taskId, taskName) => {
+      dispatch(openDeleteTaskModal(taskId, taskName))
+    }
   }
 )
 

@@ -6,11 +6,18 @@ const projects = (state = window.projects, action) => {
       return action.projects
     case 'RECEIVE_TASK': {
       const immutableState = fromJS(state)
+      const index = immutableState.findKey(project => project.get('id') === action.projectId)
+      const updatedImmutableState = immutableState.updateIn([index, 'tasks'], tasks => tasks.push(action.task))
+      return updatedImmutableState.toJS()
+    }
+    case 'FINISH_TASK_DELETION': {
+      const immutableState = fromJS(state)
       const updatedImmutableState = immutableState.map(project => {
-        if (project.get('id') === action.projectId) {
-          return project.updateIn(['tasks'], tasks => tasks.push(action.task))
+        const index = project.get('tasks').findKey(task => task.get('id') === action.id)
+        if (index === undefined) {
+          return project
         }
-        return project
+        return project.updateIn(['tasks'], tasks => tasks.delete(index))
       })
       return updatedImmutableState.toJS()
     }

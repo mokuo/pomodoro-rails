@@ -36,3 +36,23 @@ export const createTask = (projectId, name, todoOn) => (
       })
   }
 )
+
+const finishTaskDeletion = id => (
+  {
+    type: 'FINISH_TASK_DELETION',
+    id
+  }
+)
+
+export const deleteTask = id => (
+  dispatch => {
+    axios.delete(`/api/v1/tasks/${id}`)
+      .then(response => {
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(finishTaskDeletion(id))
+        }
+      })
+  }
+)

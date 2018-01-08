@@ -42,7 +42,7 @@ const Project = props => {
   return (
     <tbody>
       <tr className="table-primary">
-        <th colSpan="10">
+        <th colSpan="11">
           {props.name}
           <a
             href=""
@@ -57,7 +57,7 @@ const Project = props => {
         </th>
       </tr>
       {props.tasks.map(task => (
-        <Task key={task.id} {...task} />
+        <Task key={task.id} {...task} onXClick={props.onXClick} />
       ))}
       {newTask}
     </tbody>
@@ -76,7 +76,8 @@ Project.propTypes = {
   date: PropTypes.string.isRequired,
   onPlusClick: PropTypes.func.isRequired,
   onCreateTask: PropTypes.func.isRequired,
-  onFinishOperation: PropTypes.func.isRequired
+  onFinishOperation: PropTypes.func.isRequired,
+  onXClick: PropTypes.func.isRequired
 }
 
 export default Project
