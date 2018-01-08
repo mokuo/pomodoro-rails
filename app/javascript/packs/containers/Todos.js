@@ -6,8 +6,8 @@ import { openDeleteTaskModal } from '../actions/modals'
 
 const mapStateToProps = state => (
   {
-    projects: state.projects,
-    operation: state.operation,
+    projects: state.projects.toJS(),
+    operation: state.operation.toJS(),
     date: state.date
   }
 )

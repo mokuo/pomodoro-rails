@@ -1,15 +1,17 @@
-const initialState = {
+import { fromJS } from 'immutable'
+
+const initialState = fromJS({
   deleteTaskModal: {
     isOpen: false,
     taskId: null,
     taskName: null
   }
-}
+})
 
 const modals = (state = initialState, action) => {
   switch (action.type) {
     case 'OPEN_DELETE_TASK_MODAL':
-      return Object.assign({}, state, {
+      return state.mergeDeep({
         deleteTaskModal: {
           isOpen: true,
           taskId: action.taskId,

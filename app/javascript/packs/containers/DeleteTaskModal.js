@@ -42,9 +42,9 @@ RawDeleteTaskModal.defaultProps = {
 
 const mapStateToProps = state => (
   {
-    isOpen: state.modals.deleteTaskModal.isOpen,
-    taskId: state.modals.deleteTaskModal.taskId,
-    taskName: state.modals.deleteTaskModal.taskName
+    isOpen: state.modals.getIn(['deleteTaskModal', 'isOpen']),
+    taskId: state.modals.getIn(['deleteTaskModal', 'taskId']),
+    taskName: state.modals.getIn(['deleteTaskModal', 'taskName'])
   }
 )
 
