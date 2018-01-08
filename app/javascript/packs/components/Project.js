@@ -20,15 +20,15 @@ const Project = props => {
             onBlur={e => {
               const taskName = e.target.value
               if (taskName.trim() !== '') {
-                props.onCreateTask(props.id, taskName, props.date)
+                props.createTask(props.id, taskName, props.date)
               }
-              props.onFinishOperation()
+              props.finishOperation()
             }}
             onKeyPress={e => {
               const taskName = e.target.value
               if (e.key === 'Enter' && taskName.trim() !== '') {
-                props.onCreateTask(props.id, taskName, props.date)
-                props.onFinishOperation()
+                props.createTask(props.id, taskName, props.date)
+                props.finishOperation()
               }
             }}
             autoFocus
@@ -62,8 +62,8 @@ const Project = props => {
           operation={props.operation}
           onXClick={props.onXClick}
           onTaskClick={props.onTaskClick}
-          onFinishOperation={props.onFinishOperation}
-          onUpdateTask={props.onUpdateTask}
+          finishOperation={props.finishOperation}
+          updateTask={props.updateTask}
         />
       ))}
       {newTask}
@@ -82,11 +82,11 @@ Project.propTypes = {
   }).isRequired,
   date: PropTypes.string.isRequired,
   onPlusClick: PropTypes.func.isRequired,
-  onCreateTask: PropTypes.func.isRequired,
-  onFinishOperation: PropTypes.func.isRequired,
+  createTask: PropTypes.func.isRequired,
+  finishOperation: PropTypes.func.isRequired,
   onXClick: PropTypes.func.isRequired,
   onTaskClick: PropTypes.func.isRequired,
-  onUpdateTask: PropTypes.func.isRequired
+  updateTask: PropTypes.func.isRequired
 }
 
 export default Project

@@ -17,17 +17,17 @@ const mapDispatchToProps = dispatch => (
     onPlusClick: projectId => {
       dispatch(newTask(projectId))
     },
-    onCreateTask: (projectId, name, todoOn) => {
+    createTask: (projectId, name, todoOn) => {
       dispatch(createTask(projectId, name, todoOn))
     },
-    onFinishOperation: () => dispatch(finishOperation()),
+    finishOperation: () => dispatch(finishOperation()),
     onXClick: (taskId, taskName) => {
       dispatch(openDeleteTaskModal(taskId, taskName))
     },
     onTaskClick: id => {
       dispatch(editTask(id))
     },
-    onUpdateTask: (id, name) => {
+    updateTask: (id, name) => {
       dispatch(updateTask(id, name))
     }
   }

@@ -18,15 +18,15 @@ const Task = props => {
           onBlur={e => {
             const taskName = e.target.value
             if (taskName.trim() !== '') {
-              props.onUpdateTask(props.id, taskName)
+              props.updateTask(props.id, taskName)
             }
-            props.onFinishOperation()
+            props.finishOperation()
           }}
           onKeyPress={e => {
             const taskName = e.target.value
             if (e.key === 'Enter' && taskName.trim() !== '') {
-              props.onUpdateTask(props.id, taskName)
-              props.onFinishOperation()
+              props.updateTask(props.id, taskName)
+              props.finishOperation()
             }
           }}
           autoFocus
@@ -74,8 +74,8 @@ Task.propTypes = {
   }).isRequired,
   onXClick: PropTypes.func.isRequired,
   onTaskClick: PropTypes.func.isRequired,
-  onFinishOperation: PropTypes.func.isRequired,
-  onUpdateTask: PropTypes.func.isRequired
+  finishOperation: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired
 }
 
 export default Task
