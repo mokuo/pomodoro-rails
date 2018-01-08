@@ -86,3 +86,26 @@ export const updateTask = (id, name) => (
       })
   }
 )
+
+const finishTaskToggle = (id, done) => (
+  {
+    type: 'FINISH_TASK_TOGGLE',
+    id,
+    done
+  }
+)
+
+export const toggleTask = (id, done) => (
+  dispatch => {
+    axios.patch(`/api/v1/tasks/${id}`, {
+      done
+    })
+      .then(response => {
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(finishTaskToggle(id, done))
+        }
+      })
+  }
+)

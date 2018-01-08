@@ -26,6 +26,15 @@ const projects = (state = fromJS(window.projects), action) => {
         return project.updateIn(['tasks'], tasks => tasks.updateIn([index], task => task.set('name', action.name)))
       })
     }
+    case 'FINISH_TASK_TOGGLE': {
+      return state.map(project => {
+        const index = project.get('tasks').findKey(task => task.get('id') === action.id)
+        if (index === undefined) {
+          return project
+        }
+        return project.updateIn(['tasks'], tasks => tasks.updateIn([index], task => task.set('done', action.done)))
+      })
+    }
     default:
       return state
   }
