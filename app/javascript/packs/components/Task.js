@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import Pomodoro from './Pomodoro'
 
 const Task = props => {
-  let task = (<td onClick={() => props.onTaskClick(props.id)}>{props.name}</td>)
+  let task = (
+    <td onClick={() => props.onTaskClick(props.id)}>
+      <span className={props.done ? 'line-through' : ''}>{props.name}</span>
+    </td>
+  )
   if (
     props.operation.type === 'edit' &&
     props.operation.object === 'task' &&
