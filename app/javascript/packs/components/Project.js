@@ -64,6 +64,7 @@ const Project = props => {
           onTaskClick={props.onTaskClick}
           finishOperation={props.finishOperation}
           updateTask={props.updateTask}
+          onCheck={props.onCheck}
         />
       ))}
       {newTask}
@@ -86,7 +87,8 @@ Project.propTypes = {
   finishOperation: PropTypes.func.isRequired,
   onXClick: PropTypes.func.isRequired,
   onTaskClick: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired
+  updateTask: PropTypes.func.isRequired,
+  onCheck: PropTypes.func.isRequired
 }
 
 export default Project

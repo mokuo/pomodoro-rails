@@ -1,6 +1,9 @@
 .pomodoro-box {
   border: 1px solid #e9ecef;
 }
+.line-through {
+  text-decoration: line-through;
+}
 
 @import '~bootstrap/dist/css/bootstrap';
 @import '~open-iconic/font/css/open-iconic-bootstrap'
