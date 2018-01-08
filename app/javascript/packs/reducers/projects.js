@@ -1,25 +1,21 @@
 import { fromJS } from 'immutable'
 
-const projects = (state = window.projects, action) => {
+const projects = (state = fromJS(window.projects), action) => {
   switch (action.type) {
     case 'RECEIVE_TODOS':
-      return action.projects
+      return fromJS(action.projects)
     case 'RECEIVE_TASK': {
-      const immutableState = fromJS(state)
-      const index = immutableState.findKey(project => project.get('id') === action.projectId)
-      const updatedImmutableState = immutableState.updateIn([index, 'tasks'], tasks => tasks.push(action.task))
-      return updatedImmutableState.toJS()
+      const index = state.findKey(project => project.get('id') === action.projectId)
+      return state.updateIn([index, 'tasks'], tasks => tasks.push(action.task))
     }
     case 'FINISH_TASK_DELETION': {
-      const immutableState = fromJS(state)
-      const updatedImmutableState = immutableState.map(project => {
-        const index = project.get('tasks').findKey(task => task.get('id') === action.id)
+      return state.map(project => {
+        const index = project.get('tasks').findKey(task => task.id === action.id)
         if (index === undefined) {
           return project
         }
         return project.updateIn(['tasks'], tasks => tasks.delete(index))
       })
-      return updatedImmutableState.toJS()
     }
     default:
       return state

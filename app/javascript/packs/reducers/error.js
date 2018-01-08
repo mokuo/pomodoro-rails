@@ -1,7 +1,9 @@
-const initialState = {
+import { Map } from 'immutable'
+
+const initialState = Map({
   code: 0,
   messages: []
-}
+})
 
 const error = (state = initialState, action) => {
   switch (action.type) {
@@ -9,7 +11,7 @@ const error = (state = initialState, action) => {
       if (action.error.code === 0) {
         return initialState
       }
-      return action.error
+      return Map(action.error)
     }
     default:
       return state

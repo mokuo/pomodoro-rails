@@ -3,7 +3,7 @@ import Alert from '../components/Alert'
 
 const mapStateToProps = state => (
   {
-    error: state.error
+    error: state.error.toJS()
   }
 )
 
