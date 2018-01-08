@@ -22,6 +22,13 @@ const Task = props => {
             }
             props.onFinishOperation()
           }}
+          onKeyPress={e => {
+            const taskName = e.target.value
+            if (e.key === 'Enter' && taskName.trim() !== '') {
+              props.onUpdateTask(props.id, taskName)
+              props.onFinishOperation()
+            }
+          }}
           autoFocus
         />
       </td>

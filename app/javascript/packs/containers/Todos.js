@@ -19,7 +19,6 @@ const mapDispatchToProps = dispatch => (
     },
     onCreateTask: (projectId, name, todoOn) => {
       dispatch(createTask(projectId, name, todoOn))
-      dispatch(finishOperation())
     },
     onFinishOperation: () => dispatch(finishOperation()),
     onXClick: (taskId, taskName) => {

@@ -19,17 +19,16 @@ const Project = props => {
             className="form-control"
             onBlur={e => {
               const taskName = e.target.value
-              if (taskName.trim() === '') {
-                props.onFinishOperation()
-                return
+              if (taskName.trim() !== '') {
+                props.onCreateTask(props.id, taskName, props.date)
               }
-              props.onCreateTask(props.id, taskName, props.date)
+              props.onFinishOperation()
             }}
             onKeyPress={e => {
               const taskName = e.target.value
-              if (taskName.trim() === '') { return }
-              if (e.key === 'Enter') {
+              if (e.key === 'Enter' && taskName.trim() !== '') {
                 props.onCreateTask(props.id, taskName, props.date)
+                props.onFinishOperation()
               }
             }}
             autoFocus
