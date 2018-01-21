@@ -14,7 +14,12 @@ const PomodorosPopover = props =>
         <span
           className="clickable fs-25 mr-2"
           onClick={() => {
-            props.onPomodoroClick(props.taskId, 'square')
+            if (props.taskId !== null) {
+              props.createPomodoro(props.taskId, 'square')
+            }
+            if (props.pomodoroId !== null) {
+              props.updatePomodoro(props.pomodoroId, 'square')
+            }
             props.toggle()
           }}
           role="presentation"
@@ -24,7 +29,12 @@ const PomodorosPopover = props =>
         <span
           className="clickable fs-25 mr-1"
           onClick={() => {
-            props.onPomodoroClick(props.taskId, 'circle')
+            if (props.taskId !== null) {
+              props.createPomodoro(props.taskId, 'circle')
+            }
+            if (props.pomodoroId !== null) {
+              props.updatePomodoro(props.pomodoroId, 'circle')
+            }
             props.toggle()
           }}
           role="presentation"
@@ -34,7 +44,12 @@ const PomodorosPopover = props =>
         <span
           className="clickable fs-25"
           onClick={() => {
-            props.onPomodoroClick(props.taskId, 'triangle')
+            if (props.taskId !== null) {
+              props.createPomodoro(props.taskId, 'triangle')
+            }
+            if (props.pomodoroId !== null) {
+              props.updatePomodoro(props.pomodoroId, 'triangle')
+            }
             props.toggle()
           }}
           role="presentation"
@@ -49,8 +64,15 @@ PomodorosPopover.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   target: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired,
-  taskId: PropTypes.number.isRequired,
-  onPomodoroClick: PropTypes.func.isRequired
+  taskId: PropTypes.number,
+  pomodoroId: PropTypes.number,
+  createPomodoro: PropTypes.func.isRequired,
+  updatePomodoro: PropTypes.func.isRequired
+}
+
+PomodorosPopover.defaultProps = {
+  taskId: null,
+  pomodoroId: null
 }
 
 export default PomodorosPopover

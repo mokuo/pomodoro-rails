@@ -1,13 +1,16 @@
 import { connect } from 'react-redux'
 import PomodorosPopover from '../components/PomodorosPopover'
-import { createPomodoro } from '../actions/pomodoros'
+import { createPomodoro, updatePomodoro } from '../actions/pomodoros'
 
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = dispatch => (
   {
-    onPomodoroClick: (taskId, box) => {
+    createPomodoro: (taskId, box) => {
       dispatch(createPomodoro(taskId, box))
+    },
+    updatePomodoro: (id, box) => {
+      dispatch(updatePomodoro(id, box))
     }
   }
 )

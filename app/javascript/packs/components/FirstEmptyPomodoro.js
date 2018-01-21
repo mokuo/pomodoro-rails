@@ -17,6 +17,7 @@ class FirstEmptyPomodoro extends Component {
 
   render() {
     const target = `task${this.props.taskId}-first-empty-pomodoro`
+
     return (
       <td
         id={target}
