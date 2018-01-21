@@ -10,7 +10,11 @@ const PomodorosPopover = props =>
       target={props.target}
       toggle={props.toggle}
     >
-      <PopoverBody>test</PopoverBody>
+      <PopoverBody>
+        <span className="pomodoro square mr-2" />
+        <span className="pomodoro circle mr-2" />
+        <span className="pomodoro triangle" />
+      </PopoverBody>
     </Popover>
   )
 
