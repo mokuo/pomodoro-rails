@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Pomodoro from './Pomodoro'
+import FirstEmptyPomodoro from './FirstEmptyPomodoro'
 
 const Task = props => {
   let task = (
-    <td onClick={() => props.onTaskClick(props.id)}>
+    <td className="clickable" onClick={() => props.onTaskClick(props.id)}>
       <span className={props.done ? 'line-through' : ''}>{props.name}</span>
     </td>
   )
@@ -41,7 +42,11 @@ const Task = props => {
 
   const emptyPomodoros = []
   for (let i = 0; i < 8 - props.pomodoros.length; i += 1) {
-    emptyPomodoros.push(<Pomodoro key={i} />)
+    if (i === 0) {
+      emptyPomodoros.push(<FirstEmptyPomodoro key={i} taskId={props.id} />)
+    } else {
+      emptyPomodoros.push(<td key={i} className="pomodoro-box" width="48" />)
+    }
   }
 
   return (

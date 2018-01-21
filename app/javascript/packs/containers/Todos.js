@@ -20,7 +20,9 @@ const mapDispatchToProps = dispatch => (
     createTask: (projectId, name, todoOn) => {
       dispatch(createTask(projectId, name, todoOn))
     },
-    finishOperation: () => dispatch(finishOperation()),
+    finishOperation: () => {
+      dispatch(finishOperation())
+    },
     onXClick: (taskId, taskName) => {
       dispatch(openDeleteTaskModal(taskId, taskName))
     },

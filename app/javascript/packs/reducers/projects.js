@@ -35,6 +35,15 @@ const projects = (state = fromJS(window.projects), action) => {
         return project.updateIn(['tasks'], tasks => tasks.updateIn([index], task => task.set('done', action.done)))
       })
     }
+    case 'RECEIVE_POMODORO': {
+      return state.map(project => {
+        const taskIndex = project.get('tasks').findKey(task => task.get('id') === action.taskId)
+        if (taskIndex === undefined) {
+          return project
+        }
+        return project.updateIn(['tasks'], tasks => tasks.updateIn([taskIndex, 'pomodoros'], pomodoros => pomodoros.push(fromJS(action.pomodoro))))
+      })
+    }
     default:
       return state
   }

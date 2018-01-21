@@ -1,8 +1,21 @@
 .pomodoro-box {
   border: 1px solid #e9ecef;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background: #f8f9fa;
+}
+
 .line-through {
   text-decoration: line-through;
+}
+
+.fs-25 {
+  font-size: 25px;
 }
 
 @import '~bootstrap/dist/css/bootstrap';
