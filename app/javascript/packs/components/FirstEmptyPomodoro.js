@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import PomodorosPopover from '../components/PomodorosPopover'
+import PomodorosPopoverContainer from '../containers/PomodorosPopoverContainer'
 
 class FirstEmptyPomodoro extends Component {
   constructor(props) {
@@ -24,10 +24,11 @@ class FirstEmptyPomodoro extends Component {
         width="48"
         onClick={() => this.togglePopover()}
       >
-        <PomodorosPopover
+        <PomodorosPopoverContainer
           isOpen={this.state.popoverIsOpen}
           target={target}
           toggle={this.togglePopover}
+          taskId={this.props.taskId}
         />
       </td>
     )

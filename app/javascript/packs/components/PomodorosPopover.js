@@ -11,9 +11,30 @@ const PomodorosPopover = props =>
       toggle={props.toggle}
     >
       <PopoverBody>
-        <span className="pomodoro square mr-2" />
-        <span className="pomodoro circle mr-2" />
-        <span className="pomodoro triangle" />
+        <span
+          className="pomodoro square mr-2"
+          onClick={() => {
+            props.onPomodoroClick(props.taskId, 'square')
+            props.toggle()
+          }}
+          role="presentation"
+        />
+        <span
+          className="pomodoro circle mr-2"
+          onClick={() => {
+            props.onPomodoroClick(props.taskId, 'circle')
+            props.toggle()
+          }}
+          role="presentation"
+        />
+        <span
+          className="pomodoro triangle"
+          onClick={() => {
+            props.onPomodoroClick(props.taskId, 'triangle')
+            props.toggle()
+          }}
+          role="presentation"
+        />
       </PopoverBody>
     </Popover>
   )
@@ -21,7 +42,9 @@ const PomodorosPopover = props =>
 PomodorosPopover.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   target: PropTypes.string.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  taskId: PropTypes.number.isRequired,
+  onPomodoroClick: PropTypes.func.isRequired
 }
 
 export default PomodorosPopover

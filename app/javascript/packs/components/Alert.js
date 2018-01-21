@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 const Alert = props => {
   let alertDanger = null
 
-  const errorMessages = props.error.messages.map(msg => <p className="mb-0">{msg}</p>)
+  const errorMessages = props.error.messages.map((msg, index) => (
+    <p key={index} className="mb-0">{msg}</p>
+  ))
 
   if (props.error.code !== 0) {
     alertDanger = (

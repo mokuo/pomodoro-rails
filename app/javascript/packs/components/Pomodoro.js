@@ -16,7 +16,7 @@ const symbol = box => {
 
 const Pomodoro = props =>
   (
-    <td className="pomodoro-box" width="48">{symbol(props.box)}</td>
+    <td className="pomodoro-box text-center" width="48">{symbol(props.box)}</td>
   )
 
 Pomodoro.propTypes = {
