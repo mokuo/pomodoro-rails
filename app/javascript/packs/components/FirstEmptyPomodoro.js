@@ -20,7 +20,7 @@ class FirstEmptyPomodoro extends Component {
     return (
       <td
         id={target}
-        className="pomodoro-box"
+        className="pomodoro-box clickable"
         width="48"
         onClick={() => this.togglePopover()}
       >

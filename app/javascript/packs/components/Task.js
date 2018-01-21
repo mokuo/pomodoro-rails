@@ -5,7 +5,7 @@ import FirstEmptyPomodoro from './FirstEmptyPomodoro'
 
 const Task = props => {
   let task = (
-    <td onClick={() => props.onTaskClick(props.id)}>
+    <td className="clickable" onClick={() => props.onTaskClick(props.id)}>
       <span className={props.done ? 'line-through' : ''}>{props.name}</span>
     </td>
   )
