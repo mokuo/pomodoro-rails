@@ -12,29 +12,35 @@ const PomodorosPopover = props =>
     >
       <PopoverBody>
         <span
-          className="pomodoro square mr-2"
+          className="clickable fs-25 mr-2"
           onClick={() => {
             props.onPomodoroClick(props.taskId, 'square')
             props.toggle()
           }}
           role="presentation"
-        />
+        >
+          □
+        </span>
         <span
-          className="pomodoro circle mr-2"
+          className="clickable fs-25 mr-1"
           onClick={() => {
             props.onPomodoroClick(props.taskId, 'circle')
             props.toggle()
           }}
           role="presentation"
-        />
+        >
+          ○
+        </span>
         <span
-          className="pomodoro triangle"
+          className="clickable fs-25"
           onClick={() => {
             props.onPomodoroClick(props.taskId, 'triangle')
             props.toggle()
           }}
           role="presentation"
-        />
+        >
+          △
+        </span>
       </PopoverBody>
     </Popover>
   )
