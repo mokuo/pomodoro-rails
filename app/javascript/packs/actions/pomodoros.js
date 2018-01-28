@@ -41,3 +41,16 @@ export const updatePomodoro = (id, box) => (
       })
   }
 )
+
+export const togglePomodoro = (id, done) => (
+  dispatch => {
+    axios.patch(`/api/v1/pomodoros/${id}`, { done })
+      .then(response => {
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(finishPomodoroUpdate(response.data.pomodoro))
+        }
+      })
+  }
+)
