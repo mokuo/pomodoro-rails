@@ -41,7 +41,7 @@ const Task = props => {
   }
 
   const emptyPomodoros = []
-  for (let i = 0; i < 8 - props.pomodoros.length; i += 1) {
+  for (let i = 0; i < 6 - props.pomodoros.length; i += 1) {
     if (i === 0) {
       emptyPomodoros.push(<FirstEmptyPomodoro key={i} taskId={props.id} />)
     } else {

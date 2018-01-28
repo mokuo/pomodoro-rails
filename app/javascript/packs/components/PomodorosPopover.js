@@ -47,6 +47,17 @@ const PomodorosPopover = props => {
             >
               {props.done ? '完了をキャンセル' : '完了'}
             </a>
+            <br />
+            <a
+              href="#"
+              onClick={e => {
+                e.preventDefault()
+                props.deletePomodoro(props.pomodoroId)
+                props.toggle()
+              }}
+            >
+              削除
+            </a>
           </span>
         }
       </PopoverBody>
@@ -63,7 +74,8 @@ PomodorosPopover.propTypes = {
   done: PropTypes.bool,
   createPomodoro: PropTypes.func.isRequired,
   updatePomodoro: PropTypes.func.isRequired,
-  togglePomodoro: PropTypes.func.isRequired
+  togglePomodoro: PropTypes.func.isRequired,
+  deletePomodoro: PropTypes.func.isRequired
 }
 
 PomodorosPopover.defaultProps = {

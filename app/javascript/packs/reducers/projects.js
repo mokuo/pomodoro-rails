@@ -55,6 +55,17 @@ const projects = (state = fromJS(window.projects), action) => {
         }))
       ))
     }
+    case 'FINISH_POMODORO_DELETION': {
+      return state.map(project => (
+        project.updateIn(['tasks'], tasks => tasks.map(task => {
+          const index = task.get('pomodoros').findKey(pomodoro => pomodoro.get('id') === action.id)
+          if (index === undefined) {
+            return task
+          }
+          return task.updateIn(['pomodoros'], pomodoros => pomodoros.delete(index))
+        }))
+      ))
+    }
     default:
       return state
   }
