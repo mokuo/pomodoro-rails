@@ -31,11 +31,15 @@ class Pomodoro extends Component {
 
   render() {
     const target = `pomodoro${this.props.id}`
+    let tdClassName = 'pomodoro-box text-center clickable'
+    if (this.props.done) {
+      tdClassName += ' line-through'
+    }
 
     return (
       <td
         id={target}
-        className="pomodoro-box text-center clickable"
+        className={tdClassName}
         width="48"
         onClick={() => this.togglePopover()}
       >
@@ -45,6 +49,7 @@ class Pomodoro extends Component {
           target={target}
           toggle={this.togglePopover}
           pomodoroId={this.props.id}
+          done={this.props.done}
         />
       </td>
     )
@@ -53,7 +58,8 @@ class Pomodoro extends Component {
 
 Pomodoro.propTypes = {
   id: PropTypes.number.isRequired,
-  box: PropTypes.string.isRequired
+  box: PropTypes.string.isRequired,
+  done: PropTypes.bool.isRequired
 }
 
 export default Pomodoro
