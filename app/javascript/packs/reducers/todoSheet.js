@@ -5,7 +5,7 @@ import operation from './operation'
 import error from './error'
 import modals from './modals'
 
-const todosReducer = combineReducers({
+const todoSheetReducer = combineReducers({
   date,
   projects,
   operation,
@@ -13,4 +13,4 @@ const todosReducer = combineReducers({
   modals
 })
 
-export default todosReducer
+export default todoSheetReducer

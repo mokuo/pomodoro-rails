@@ -1,17 +1,17 @@
 import React from 'react'
 import DateNavigation from '../containers/DateNavigation'
-import Todos from '../containers/Todos'
+import ProjectListContainer from '../containers/ProjectListContainer'
 import ErrorAlert from '../containers/ErrorAlert'
 import DeleteTaskModal from '../containers/DeleteTaskModal'
 
-const TodoApp = () =>
+const TodoSheet = () =>
   (
     <div>
       <ErrorAlert />
       <DateNavigation />
-      <Todos />
+      <ProjectListContainer />
       <DeleteTaskModal />
     </div>
   )
 
-export default TodoApp
+export default TodoSheet

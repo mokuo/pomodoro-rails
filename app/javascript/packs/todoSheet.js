@@ -4,11 +4,11 @@ import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createStore, applyMiddleware } from 'redux'
 import axios from 'axios'
-import todosReducer from './reducers/index'
-import TodoApp from './components/TodoApp'
+import todoSheetReducer from './reducers/todoSheet'
+import TodoSheet from './components/TodoSheet'
 
 const store = createStore(
-  todosReducer,
+  todoSheetReducer,
   applyMiddleware(thunkMiddleware)
 )
 
@@ -18,7 +18,7 @@ axios.defaults.headers['Content-Type'] = 'application/json'
 
 render(
   <Provider store={store}>
-    <TodoApp />
+    <TodoSheet />
   </Provider>,
-  document.getElementById('todos')
+  document.getElementById('todoSheet')
 )
