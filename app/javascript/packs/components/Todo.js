@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Pomodoro from './Pomodoro'
 import FirstEmptyPomodoro from './FirstEmptyPomodoro'
 
-const Task = props => {
+const Todo = props => {
   let task = (
     <td className="clickable" onClick={() => props.onTaskClick(props.id)}>
       <span className={props.done ? 'line-through' : ''}>{props.name}</span>
@@ -78,7 +78,7 @@ const Task = props => {
   )
 }
 
-Task.propTypes = {
+Todo.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   done: PropTypes.bool.isRequired,
@@ -95,4 +95,4 @@ Task.propTypes = {
   onCheck: PropTypes.func.isRequired
 }
 
-export default Task
+export default Todo

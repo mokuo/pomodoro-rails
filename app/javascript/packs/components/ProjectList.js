@@ -32,7 +32,7 @@ ProjectList.propTypes = {
     taskId: PropTypes.number,
     pomodoroId: PropTypes.number
   }).isRequired,
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   onPlusClick: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
   finishOperation: PropTypes.func.isRequired,
@@ -40,6 +40,10 @@ ProjectList.propTypes = {
   onTaskClick: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired,
   onCheck: PropTypes.func.isRequired
+}
+
+ProjectList.defaultProps = {
+  date: null
 }
 
 export default ProjectList
