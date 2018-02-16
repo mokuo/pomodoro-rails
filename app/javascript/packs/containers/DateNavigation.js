@@ -14,8 +14,8 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => {
   const shiftDate = day => {
     const date = document.getElementById('date').text
-    const previousDate = addDays(date, day)
-    const formattedDate = format(previousDate, 'YYYY-MM-DD')
+    const changedDate = addDays(date, day)
+    const formattedDate = format(changedDate, 'YYYY-MM-DD')
     dispatch(changeDate(formattedDate))
     dispatch(fetchTodos(formattedDate))
   }
