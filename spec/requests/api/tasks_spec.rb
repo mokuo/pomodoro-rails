@@ -78,7 +78,7 @@ RSpec.describe 'Api::Tasks', type: :request do
       context 'バリデーションエラーの時' do
         let!(:project) { create :project, user: user }
         let(:project_id) { project.id }
-        let(:params) { '{ "name": "", "todo_on": "" }' }
+        let(:params) { '{ "name": "" }' }
 
         it_behaves_like 'バリデーションエラー'
 
@@ -88,10 +88,6 @@ RSpec.describe 'Api::Tasks', type: :request do
 
         it 'name のバリデーションエラーを返す' do
           expect(response.body).to be_json_eql('タスク名を入力してください'.to_json).at_path('error/messages/0')
-        end
-
-        it 'todo_on のバリデーションエラーを返す' do
-          expect(response.body).to be_json_eql('日付を入力してください'.to_json).at_path('error/messages/1')
         end
       end
 
@@ -123,7 +119,7 @@ RSpec.describe 'Api::Tasks', type: :request do
     context '正常系' do
       let!(:project) { create :project, user: user }
       let!(:task) { create :task, name: 'old task', project: project }
-      let(:params) { '{ "name": "new task", "done": true }' }
+      let(:params) { '{ "name": "new task", "done": true, "todo_on": "2018-02-02" }' }
       let(:task_id) { task.id }
 
       it_behaves_like '処理成功'
@@ -134,6 +130,10 @@ RSpec.describe 'Api::Tasks', type: :request do
 
       it 'done を更新する' do
         expect { task.reload }.to change { task.done }.from(false).to(true)
+      end
+
+      it 'todo_on を更新する' do
+        expect { task.reload }.to change { task.todo_on }.from(nil).to(Date.new(2018, 2, 2))
       end
 
       it 'タスクID を返す' do
@@ -148,8 +148,8 @@ RSpec.describe 'Api::Tasks', type: :request do
         expect(response.body).to be_json_eql(true).at_path('task/done')
       end
 
-      it 'todo_on を返す' do
-        expect(response.body).to be_json_eql(task.todo_on.to_s.to_json).at_path('task/todo_on')
+      it '更新された todo_on を返す' do
+        expect(response.body).to be_json_eql('2018-02-02'.to_json).at_path('task/todo_on')
       end
 
       it 'プロジェクトID を返す' do

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Task from './Task'
+import Todo from './Todo'
+import Activity from './Activity'
 
 const Project = props => {
   let newTask = null
@@ -38,6 +39,34 @@ const Project = props => {
     )
   }
 
+  const tasks = props.tasks.map(task => {
+    switch (location.pathname) {
+      case '/todos':
+        return (<Todo
+          key={task.id}
+          {...task}
+          operation={props.operation}
+          onXClick={props.onXClick}
+          onTaskClick={props.onTaskClick}
+          finishOperation={props.finishOperation}
+          updateTask={props.updateTask}
+          onCheck={props.onCheck}
+        />)
+      case '/activities':
+        return (<Activity
+          key={task.id}
+          {...task}
+          operation={props.operation}
+          onXClick={props.onXClick}
+          onTaskClick={props.onTaskClick}
+          finishOperation={props.finishOperation}
+          updateTask={props.updateTask}
+        />)
+      default:
+        return null
+    }
+  })
+
   return (
     <tbody>
       <tr className="table-primary">
@@ -55,18 +84,7 @@ const Project = props => {
           </a>
         </th>
       </tr>
-      {props.tasks.map(task => (
-        <Task
-          key={task.id}
-          {...task}
-          operation={props.operation}
-          onXClick={props.onXClick}
-          onTaskClick={props.onTaskClick}
-          finishOperation={props.finishOperation}
-          updateTask={props.updateTask}
-          onCheck={props.onCheck}
-        />
-      ))}
+      {tasks}
       {newTask}
     </tbody>
   )
@@ -81,7 +99,7 @@ Project.propTypes = {
     object: PropTypes.string,
     projectId: PropTypes.number
   }).isRequired,
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   onPlusClick: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
   finishOperation: PropTypes.func.isRequired,
@@ -89,6 +107,10 @@ Project.propTypes = {
   onTaskClick: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired,
   onCheck: PropTypes.func.isRequired
+}
+
+Project.defaultProps = {
+  date: null
 }
 
 export default Project

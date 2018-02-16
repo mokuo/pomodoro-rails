@@ -1,3 +1,3 @@
 module Constants
-  DEFAULT_PROJECT_NAME = 'others'
+  DEFAULT_PROJECT_NAME = 'no project'
 end

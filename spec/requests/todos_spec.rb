@@ -23,7 +23,11 @@ RSpec.describe 'Todos', type: :request do
 
     context '正常系' do
       it '@projects にログインユーザーかつ進行中のプロジェクトのみ割り当てる' do
-        expect(assigns(:projects).size).to eq 5 # others も加わる
+        expect(assigns(:projects).size).to eq 5 # no project も加わる
+      end
+
+      it '本日のTODOシートを表示する' do
+        expect(response).to render_template :index
       end
     end
 

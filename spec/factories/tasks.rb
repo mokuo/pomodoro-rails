@@ -24,6 +24,5 @@ FactoryBot.define do
   factory :task do
     project
     name 'テストタスク'
-    todo_on { Date.current }
   end
 end

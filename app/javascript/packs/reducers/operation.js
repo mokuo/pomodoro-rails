@@ -4,8 +4,7 @@ const initialState = Map({
   type: null,
   object: null,
   projectId: null,
-  taskId: null,
-  pomodoroId: null
+  taskId: null
 })
 
 const operation = (state = initialState, action) => {

@@ -3,7 +3,6 @@ import ProjectList from '../components/ProjectList'
 import { newTask, createTask, editTask, updateTask, toggleTask } from '../actions/tasks'
 import { finishOperation } from '../actions/operation'
 import { openDeleteTaskModal } from '../actions/modals'
-import { updatePomodoro } from '../actions/pomodoros'
 
 const mapStateToProps = state => (
   {
@@ -40,9 +39,9 @@ const mapDispatchToProps = dispatch => (
 )
 
 
-const Todos = connect(
+const ProjectListContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProjectList)
 
-export default Todos
+export default ProjectListContainer
