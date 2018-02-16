@@ -40,13 +40,7 @@ const Activity = props => {
 
   return (
     <tr>
-      <td className="pl-4" width="10">
-        <input
-          type="checkbox"
-          onChange={() => props.onCheck(props.id)}
-          checked={props.done}
-        />
-      </td>
+      <td className="pl-4" width="8">-</td>
       {task}
       <td width="41">
         <a
