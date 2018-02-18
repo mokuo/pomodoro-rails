@@ -8,7 +8,8 @@ const projects = (state = fromJS(window.projects), action) => {
       const index = state.findKey(project => project.get('id') === action.projectId)
       return state.updateIn([index, 'tasks'], tasks => tasks.push(fromJS(action.task)))
     }
-    case 'FINISH_TASK_DELETION': {
+    case 'FINISH_TASK_DELETION':
+    case 'FINISH_TASK_MOVEMENT': {
       return state.map(project => {
         const index = project.get('tasks').findKey(task => task.get('id') === action.id)
         if (index === undefined) {

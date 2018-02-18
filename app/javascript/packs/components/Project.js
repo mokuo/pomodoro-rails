@@ -51,6 +51,7 @@ const Project = props => {
           finishOperation={props.finishOperation}
           updateTask={props.updateTask}
           onCheck={props.onCheck}
+          moveTask={props.moveTask}
         />)
       case 'activity':
         return (<Activity
@@ -61,6 +62,7 @@ const Project = props => {
           onTaskClick={props.onTaskClick}
           finishOperation={props.finishOperation}
           updateTask={props.updateTask}
+          moveTask={props.moveTask}
         />)
       default:
         return null
@@ -80,7 +82,7 @@ const Project = props => {
               props.onPlusClick(props.id)
             }}
           >
-            <span className="oi oi-plus" title="plus" aria-hidden="true" />
+            <span className="oi oi-plus" />
           </a>
         </th>
       </tr>
@@ -107,7 +109,8 @@ Project.propTypes = {
   onXClick: PropTypes.func.isRequired,
   onTaskClick: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired,
-  onCheck: PropTypes.func.isRequired
+  onCheck: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired
 }
 
 Project.defaultProps = {

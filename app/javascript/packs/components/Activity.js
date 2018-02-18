@@ -47,10 +47,21 @@ const Activity = props => {
           href=""
           onClick={e => {
             e.preventDefault()
+            props.moveTask(props.id)
+          }}
+        >
+          <span className="oi oi-arrow-circle-top" />
+        </a>
+      </td>
+      <td width="41">
+        <a
+          href=""
+          onClick={e => {
+            e.preventDefault()
             props.onXClick(props.id, props.name)
           }}
         >
-          <span className="oi oi-x" title="x" aria-hidden="true" />
+          <span className="oi oi-x" />
         </a>
       </td>
     </tr>
@@ -69,7 +80,8 @@ Activity.propTypes = {
   onXClick: PropTypes.func.isRequired,
   onTaskClick: PropTypes.func.isRequired,
   finishOperation: PropTypes.func.isRequired,
-  updateTask: PropTypes.func.isRequired
+  updateTask: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired
 }
 
 export default Activity

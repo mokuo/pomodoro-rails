@@ -19,6 +19,7 @@ const ProjectList = props =>
           onTaskClick={props.onTaskClick}
           updateTask={props.updateTask}
           onCheck={props.onCheck}
+          moveTask={props.moveTask}
         />
       ))}
     </table>
@@ -41,7 +42,8 @@ ProjectList.propTypes = {
   onXClick: PropTypes.func.isRequired,
   onTaskClick: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired,
-  onCheck: PropTypes.func.isRequired
+  onCheck: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired
 }
 
 ProjectList.defaultProps = {
