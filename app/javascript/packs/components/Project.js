@@ -40,8 +40,8 @@ const Project = props => {
   }
 
   const tasks = props.tasks.map(task => {
-    switch (location.pathname) {
-      case '/todos':
+    switch (props.sheet) {
+      case 'todo':
         return (<Todo
           key={task.id}
           {...task}
@@ -52,7 +52,7 @@ const Project = props => {
           updateTask={props.updateTask}
           onCheck={props.onCheck}
         />)
-      case '/activities':
+      case 'activity':
         return (<Activity
           key={task.id}
           {...task}
@@ -100,6 +100,7 @@ Project.propTypes = {
     projectId: PropTypes.number
   }).isRequired,
   date: PropTypes.string,
+  sheet: PropTypes.string.isRequired,
   onPlusClick: PropTypes.func.isRequired,
   createTask: PropTypes.func.isRequired,
   finishOperation: PropTypes.func.isRequired,

@@ -8,7 +8,8 @@ const mapStateToProps = state => (
   {
     projects: state.projects.toJS(),
     operation: state.operation.toJS(),
-    date: state.date
+    date: state.date,
+    sheet: state.sheet
   }
 )
 
