@@ -105,6 +105,7 @@ export const toggleTask = id => (
         done = !tasks.getIn([index, 'done'])
       }
     })
+
     axios.patch(`/api/v1/tasks/${id}`, {
       done
     })
@@ -113,6 +114,41 @@ export const toggleTask = id => (
         dispatch(receiveError(error))
         if (error.code === 0) {
           dispatch(finishTaskToggle(id, done))
+        }
+      })
+  }
+)
+
+const finishTaskMovement = id => (
+  {
+    type: 'FINISH_TASK_MOVEMENT',
+    id
+  }
+)
+
+export const moveTask = id => (
+  (dispatch, getState) => {
+    let todoOn
+    switch (getState().sheet) {
+      case 'todo':
+        todoOn = null
+        break
+      case 'activity':
+        todoOn = getState().date
+        break
+      default:
+        // TODO: アラートを画面に表示する
+        console.log('予期せぬエラーが発生しました');
+    }
+
+    axios.patch(`/api/v1/tasks/${id}`, {
+      todo_on: todoOn
+    })
+      .then(response => {
+        const { error } = response.data
+        dispatch(receiveError(error))
+        if (error.code === 0) {
+          dispatch(finishTaskMovement(id))
         }
       })
   }

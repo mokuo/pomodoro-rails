@@ -4,6 +4,13 @@
     %button.navbar-toggler{"aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarNav", "data-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
     #navbarNav.collapse.navbar-collapse
+      %ul.navbar-nav.mr-auto
+        %li{class: "nav-item #{'active' if controller.controller_name == 'activities'}"}
+          = link_to 'アクティビティ在庫シート', activities_path, class: 'nav-link'
+        %li{class: "nav-item #{'active' if controller.controller_name == 'todos'}"}
+          = link_to 'TODOシート', todos_path, class: 'nav-link'
+        %li{class: "nav-item #{'active' if controller.controller_name == 'projects'}"}
+          = link_to 'プロジェクト管理', projects_path, class: 'nav-link'
       %ul.navbar-nav.ml-auto
         %li.nav-item
           = link_to 'Logout', sessions_path, method: :delete, class: 'nav-link'
