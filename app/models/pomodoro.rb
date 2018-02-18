@@ -25,4 +25,26 @@ class Pomodoro < ApplicationRecord
 
   validates :box, presence: true
   validates :done, inclusion: { in: [true, false] }
+
+  validate :verify_box_type
+
+  private
+
+  def verify_box_type
+    last_pomodoro = task.pomodoros.last
+
+    if last_pomodoro.nil?
+      errors.add(:box, 'は順序通りに設定してください') if box != 'square'
+      return
+    end
+
+    case last_pomodoro.box
+    when 'square'
+      errors.add(:box, 'は順序通りに設定してください') if box == 'triangle'
+    when 'circle'
+      errors.add(:box, 'は順序通りに設定してください') if box == 'square'
+    when 'triangle'
+      errors.add(:box, 'は順序通りに設定してください') if box != 'triangle'
+    end
+  end
 end
