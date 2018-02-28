@@ -28,6 +28,8 @@ class Pomodoro < ApplicationRecord
 
   validate :verify_box_type
 
+  before_destroy :only_last_deletable
+
   private
 
   def verify_box_type
@@ -46,5 +48,11 @@ class Pomodoro < ApplicationRecord
     when 'triangle'
       errors.add(:box, 'は順序通りに設定してください') if box != 'triangle'
     end
+  end
+
+  def only_last_deletable
+    return if task.pomodoros.last == self
+    errors.add(:base, '最後のポモドーロのみ削除できます')
+    throw :abort
   end
 end

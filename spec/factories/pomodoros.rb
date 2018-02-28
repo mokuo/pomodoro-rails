@@ -21,6 +21,6 @@
 FactoryBot.define do
   factory :pomodoro do
     task
-    box 1
+    box 'square'
   end
 end
