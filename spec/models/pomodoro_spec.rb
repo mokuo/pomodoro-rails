@@ -31,7 +31,7 @@ RSpec.describe Pomodoro, type: :model do
     let(:task) { create :task }
 
     context '正常系' do
-      shared_examples 'バリデーションエラーにならない' do
+      shared_examples 'ポモドーロは正常である' do
         it { expect(pomodoro).to be_valid }
       end
 
@@ -39,7 +39,7 @@ RSpec.describe Pomodoro, type: :model do
         context 'ボックスが四角の時' do
           let(:pomodoro) { build :pomodoro, box: 'square', task: task }
 
-          it_behaves_like 'バリデーションエラーにならない'
+          it_behaves_like 'ポモドーロは正常である'
         end
       end
 
@@ -49,13 +49,13 @@ RSpec.describe Pomodoro, type: :model do
         context 'ボックスが四角の時' do
           let(:pomodoro) { build :pomodoro, box: 'square', task: task }
 
-          it_behaves_like 'バリデーションエラーにならない'
+          it_behaves_like 'ポモドーロは正常である'
         end
 
         context 'ボックスが丸の時' do
           let(:pomodoro) { build :pomodoro, box: 'circle', task: task }
 
-          it_behaves_like 'バリデーションエラーにならない'
+          it_behaves_like 'ポモドーロは正常である'
         end
       end
 
@@ -68,13 +68,13 @@ RSpec.describe Pomodoro, type: :model do
         context 'ボックスが丸の時' do
           let(:pomodoro) { build :pomodoro, box: 'circle', task: task }
 
-          it_behaves_like 'バリデーションエラーにならない'
+          it_behaves_like 'ポモドーロは正常である'
         end
 
         context 'ボックスが三角の時' do
           let(:pomodoro) { build :pomodoro, box: 'triangle', task: task }
 
-          it_behaves_like 'バリデーションエラーにならない'
+          it_behaves_like 'ポモドーロは正常である'
         end
       end
 
@@ -88,7 +88,7 @@ RSpec.describe Pomodoro, type: :model do
             create :pomodoro, box: 'triangle', task: task
           end
 
-          it_behaves_like 'バリデーションエラーにならない'
+          it_behaves_like 'ポモドーロは正常である'
         end
       end
     end
@@ -162,7 +162,7 @@ RSpec.describe Pomodoro, type: :model do
     end
   end
 
-  describe 'before_destroy :only_last_deletable' do
+  describe 'before_destroy :can_delete_only_last' do
     let(:task) { create :task }
     let!(:first_pomodoro) { create :pomodoro, task: task }
     let!(:second_pomodoro) { create :pomodoro, task: task }
@@ -188,7 +188,7 @@ RSpec.describe Pomodoro, type: :model do
 
         it 'バリデーションエラーになる' do
           subject
-          expect(first_pomodoro.errors.full_messages.first).to eq '最後のポモドーロのみ削除できます'
+          expect(first_pomodoro.errors.full_messages.first).to eq '最後のポモドーロしか削除できません'
         end
       end
 
@@ -201,7 +201,79 @@ RSpec.describe Pomodoro, type: :model do
 
         it 'バリデーションエラーになる' do
           subject
-          expect(second_pomodoro.errors.full_messages.first).to eq '最後のポモドーロのみ削除できます'
+          expect(second_pomodoro.errors.full_messages.first).to eq '最後のポモドーロしか削除できません'
+        end
+      end
+    end
+  end
+
+  describe 'validate :cannot_done_on_create, on: :create' do
+    context '正常系' do
+      context '作成時に完了していない時' do
+        let(:pomodoro) { build :pomodoro, done: false }
+
+        it 'ポモドーロは正常である' do
+          expect(pomodoro).to be_valid
+        end
+      end
+    end
+
+    context '異常系' do
+      context '作成時に完了している時' do
+        let(:pomodoro) { build :pomodoro, done: true }
+
+        it 'バリデーションエラーになる' do
+          expect(pomodoro).to be_invalid
+        end
+
+        it 'バリデーションエラーメッセージが正しい' do
+          pomodoro.valid?
+          expect(pomodoro.errors.full_messages.first).to eq '完了は作成時にはできません'
+        end
+      end
+    end
+  end
+
+  describe 'validate :can_done_only_from_first, on: :update' do
+    subject { pomodoro.update(done: true) }
+
+    context '正常系' do
+      shared_examples 'ポモドーロを完了できる' do
+        it { expect { subject }.to change { pomodoro.done }.from(false).to(true) }
+      end
+
+      context '最初のポモドーロの時' do
+        let!(:pomodoro) { create :pomodoro, done: false }
+
+        it_behaves_like 'ポモドーロを完了できる'
+      end
+
+      context '一つ前のポモドーロが完了している時' do
+        let(:task) { create :task }
+        let!(:previous_pomodoro) { create :pomodoro, done: false, task: task }
+        let!(:pomodoro) { create :pomodoro, done: false, task: task }
+
+        before do
+          previous_pomodoro.update(done: true)
+        end
+
+        it_behaves_like 'ポモドーロを完了できる'
+      end
+    end
+
+    context '異常系' do
+      context '一つ前のポモドーロが完了していない時' do
+        let(:task) { create :task }
+        let!(:previous_pomodoro) { create :pomodoro, done: false, task: task }
+        let!(:pomodoro) { create :pomodoro, done: false, task: task, box: 'circle' }
+
+        it '完了できない' do
+          expect { subject }.not_to change { pomodoro.reload.done }
+        end
+
+        it 'バリデーションエラーメッセージが正しい' do
+          subject
+          expect(pomodoro.errors.full_messages.first).to eq '完了は先頭からしかできません'
         end
       end
     end

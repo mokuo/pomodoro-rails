@@ -27,8 +27,10 @@ class Pomodoro < ApplicationRecord
   validates :done, inclusion: { in: [true, false] }
 
   validate :verify_box_type
+  validate :cannot_done_on_create, on: :create
+  validate :can_done_only_from_first, on: :update
 
-  before_destroy :only_last_deletable
+  before_destroy :can_delete_only_last
 
   private
 
@@ -50,9 +52,21 @@ class Pomodoro < ApplicationRecord
     end
   end
 
-  def only_last_deletable
+  def can_delete_only_last
     return if task.pomodoros.last == self
-    errors.add(:base, '最後のポモドーロのみ削除できます')
+    errors.add(:base, '最後のポモドーロしか削除できません')
     throw :abort
+  end
+
+  def can_done_only_from_first
+    return unless done
+    return if task.pomodoros.first == self
+    previous_pomodoro = task.pomodoros[task.pomodoros.index(self) - 1]
+    return if previous_pomodoro.done
+    errors.add(:done, 'は先頭からしかできません')
+  end
+
+  def cannot_done_on_create
+    errors.add(:done, 'は作成時にはできません') if done
   end
 end
