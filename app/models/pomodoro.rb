@@ -27,7 +27,7 @@ class Pomodoro < ApplicationRecord
   validates :done, inclusion: { in: [true, false] }
 
   validate :verify_box_type
-  validate :cannot_done_on_create, on: :create
+  validate :cannot_done_on_create, :verify_number, on: :create
   validate :can_done_only_from_first, on: :update
 
   before_destroy :can_delete_only_last
@@ -68,5 +68,9 @@ class Pomodoro < ApplicationRecord
 
   def cannot_done_on_create
     errors.add(:done, 'は作成時にはできません') if done
+  end
+
+  def verify_number
+    errors.add(:base, 'ポモドーロは６個までしか作成できません') if task.pomodoros.count == 6
   end
 end
