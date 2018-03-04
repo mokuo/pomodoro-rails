@@ -19,6 +19,8 @@
 #
 
 class Pomodoro < ApplicationRecord
+  ORDER_ERROR_MSG = 'は順序通りに設定してください'
+
   enum box: { square: 1, circle: 2, triangle: 3 }
 
   belongs_to :task
@@ -26,29 +28,58 @@ class Pomodoro < ApplicationRecord
   validates :box, presence: true
   validates :done, inclusion: { in: [true, false] }
 
-  validate :verify_box_type
-  validate :cannot_done_on_create, :verify_number, on: :create
-  validate :can_done_only_from_first, on: :update
+  validate :verify_number
+  validate :verify_box_type_on_create, :cannot_done_on_create, on: :create
+  validate :verify_box_type_on_update, :can_done_only_from_first, on: :update
 
   before_destroy :can_delete_only_last
 
   private
 
-  def verify_box_type
+  def verify_box_type_on_create
     last_pomodoro = task.pomodoros.last
 
     if last_pomodoro.nil?
-      errors.add(:box, 'は順序通りに設定してください') if box != 'square'
+      errors.add(:box, ORDER_ERROR_MSG) if box != 'square'
       return
     end
 
     case last_pomodoro.box
     when 'square'
-      errors.add(:box, 'は順序通りに設定してください') if box == 'triangle'
+      errors.add(:box, ORDER_ERROR_MSG) if box == 'triangle'
     when 'circle'
-      errors.add(:box, 'は順序通りに設定してください') if box == 'square'
+      errors.add(:box, ORDER_ERROR_MSG) if box == 'square'
     when 'triangle'
-      errors.add(:box, 'は順序通りに設定してください') if box != 'triangle'
+      errors.add(:box, ORDER_ERROR_MSG) if box != 'triangle'
+    end
+  end
+
+  def verify_box_type_on_update
+    index = task.pomodoros.index(self)
+    if index.zero?
+      errors.add(:box, ORDER_ERROR_MSG) if box != 'square'
+      return
+    end
+
+    previous_pomodoro = task.pomodoros[index - 1]
+    case previous_pomodoro.box
+    when 'square'
+      errors.add(:box, ORDER_ERROR_MSG) if box == 'triangle'
+    when 'circle'
+      errors.add(:box, ORDER_ERROR_MSG) if box == 'square'
+    when 'triangle'
+      errors.add(:box, ORDER_ERROR_MSG) if box != 'triangle'
+    end
+
+    behind_pomodoro = task.pomodoros[index + 1]
+    return if behind_pomodoro.nil?
+    case behind_pomodoro.box
+    when 'square'
+      errors.add(:box, ORDER_ERROR_MSG) if box != 'square'
+    when 'circle'
+      errors.add(:box, ORDER_ERROR_MSG) if box == 'triangle'
+    when 'triangle'
+      errors.add(:box, ORDER_ERROR_MSG) if box == 'square'
     end
   end
 
