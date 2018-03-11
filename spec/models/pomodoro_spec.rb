@@ -529,4 +529,60 @@ RSpec.describe Pomodoro, type: :model do
       end
     end
   end
+
+  describe 'validate :can_restart_only_from_last, on: :update' do
+    subject { pomodoro.update(done: false) }
+    let(:task) { create :task }
+
+    context '正常系' do
+      shared_examples 'ポモドーロを再開できる' do
+        it { expect { subject }.to change { pomodoro.reload.done }.from(true).to(false) }
+      end
+
+      context '最後のポモドーロの時' do
+        let!(:previous_pomodoro) { create :pomodoro, task: task }
+        let!(:pomodoro) { create :pomodoro, task: task }
+
+        before do
+          previous_pomodoro.update(done: true)
+          task.reload
+          pomodoro.update(done: true)
+        end
+
+        it_behaves_like 'ポモドーロを再開できる'
+      end
+
+      context '後ろのポモドーロが完了していない時' do
+        let!(:pomodoro) { create :pomodoro }
+        let!(:behind_pomodoro) { create :pomodoro }
+
+        before { pomodoro.update(done: true) }
+
+        it_behaves_like 'ポモドーロを再開できる'
+      end
+    end
+
+    context '異常系' do
+      context '後ろのポモドーロが完了している時' do
+        let!(:pomodoro) { create :pomodoro, task: task }
+        let!(:behind_pomodoro) { create :pomodoro, task: task }
+
+        before do
+          pomodoro.update(done: true)
+          task.reload
+          behind_pomodoro.update(done: true)
+          task.reload
+        end
+
+        it 'done は完了のままである' do
+          expect { subject }.not_to change { pomodoro.reload.done }
+        end
+
+        it 'バリデーションエラーメッセージが正しい' do
+          subject
+          expect(pomodoro.errors.full_messages.first).to eq '完了の取り消しは最後からしかできません'
+        end
+      end
+    end
+  end
 end

@@ -30,7 +30,7 @@ class Pomodoro < ApplicationRecord
 
   validate :verify_number
   validate :verify_box_type_on_create, :cannot_done_on_create, on: :create
-  validate :verify_box_type_on_update, :can_done_only_from_first, on: :update
+  validate :verify_box_type_on_update, :can_done_only_from_first, :can_restart_only_from_last, on: :update
 
   before_destroy :can_delete_only_last
 
@@ -103,5 +103,13 @@ class Pomodoro < ApplicationRecord
 
   def verify_number
     errors.add(:base, 'ポモドーロは６個までしか作成できません') if task.pomodoros.count == 6
+  end
+
+  def can_restart_only_from_last
+    return if done
+    return if task.pomodoros.last == self
+    behind_pomodoro = task.pomodoros[task.pomodoros.index(self) + 1]
+    return unless behind_pomodoro.done
+    errors.add(:done, 'の取り消しは最後からしかできません')
   end
 end
