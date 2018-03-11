@@ -171,7 +171,7 @@ RSpec.describe 'Api::Pomodoros', type: :request do
         it_behaves_like 'バリデーションエラー'
 
         it 'バリデーションエラーメッセージを返す' do
-          expect(response.body).to be_json_eql('ポモドーロ完了は一覧にありません'.to_json).at_path('error/messages/0')
+          expect(response.body).to be_json_eql('完了は一覧にありません'.to_json).at_path('error/messages/0')
         end
       end
 
