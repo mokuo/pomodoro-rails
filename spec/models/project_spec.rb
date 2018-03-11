@@ -31,19 +31,33 @@ RSpec.describe Project, type: :model do
   describe '#stop' do
     subject { project.stop }
 
-    context 'デフォルトプロジェクトの時' do
-      let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
+    context '正常系' do
+      context 'デフォルトプロジェクトでない時' do
+        let!(:project) { create :project, name: 'not default project' }
 
-      it 'プロジェクトを停止しない' do
-        expect { subject }.not_to change { project.stopped_at? }
+        it 'プロジェクトを停止する' do
+          expect { subject }.to change { project.stopped_at? }.from(false).to(true)
+        end
       end
     end
 
-    context 'デフォルトプロジェクトでない時' do
-      let!(:project) { create :project, name: 'not default project' }
+    context '異常系' do
+      shared_examples 'プロジェクトを停止しない' do
+        it { expect { subject }.not_to change { project.reload.stopped? } }
+      end
 
-      it 'プロジェクトを停止する' do
-        expect { subject }.to change { project.stopped_at? }.from(false).to(true)
+      context 'デフォルトプロジェクトの時' do
+        let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
+
+        it_behaves_like 'プロジェクトを停止しない'
+      end
+
+      context '本日以降のタスクが紐づいている時' do
+        let!(:project) { create :project }
+
+        before { create :task, project: project, todo_on: Date.current }
+
+        it_behaves_like 'プロジェクトを停止しない'
       end
     end
   end
