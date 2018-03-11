@@ -28,11 +28,12 @@ class Project < ApplicationRecord
   has_many :tasks, dependent: :restrict_with_error
 
   validates :name, presence: true
+  validate :cannot_stop_default_project
+  validate :cannot_stop_with_tasks_after_today
 
   before_destroy :protect_default_project
 
   def stop
-    return if name == Constants::DEFAULT_PROJECT_NAME
     update(stopped_at: DateTime.current)
   end
 
@@ -48,5 +49,13 @@ class Project < ApplicationRecord
 
   def protect_default_project
     throw :abort if name == Constants::DEFAULT_PROJECT_NAME
+  end
+
+  def cannot_stop_default_project
+    errors.add(:base, 'デフォルトプロジェクトは停止できません') if stopped? && name == Constants::DEFAULT_PROJECT_NAME
+  end
+
+  def cannot_stop_with_tasks_after_today
+    errors.add(:base, '本日以降のタスクが紐づいたプロジェクトは停止できません') if stopped? && tasks.where('todo_on >= ?', Date.current).present?
   end
 end
