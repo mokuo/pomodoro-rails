@@ -7,3 +7,4 @@ ja:
         user: ユーザー
         name: プロジェクト名
         tasks: タスク
+        is_default: デフォルトかどうか
