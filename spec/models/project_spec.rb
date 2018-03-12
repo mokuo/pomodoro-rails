@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  stopped_at :datetime
+#  is_default :boolean          default(FALSE)
 #
 # Indexes
 #
