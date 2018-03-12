@@ -50,6 +50,8 @@ RSpec.describe Project, type: :model do
       context 'デフォルトプロジェクトの時' do
         let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
 
+        before { project.update_attribute(:is_default, true) }
+
         it_behaves_like 'プロジェクトを停止しない'
 
         it 'バリデーションエラーメッセージが正しい' do
@@ -107,6 +109,8 @@ RSpec.describe Project, type: :model do
 
     context 'デフォルトプロジェクトの時' do
       let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
+
+      before { project.update_attribute(:is_default, true) }
 
       it '削除されない' do
         expect { subject }.not_to change { Project.count }

@@ -21,7 +21,7 @@
 #
 
 class Project < ApplicationRecord
-  scope :without_default, -> { where.not(name: Constants::DEFAULT_PROJECT_NAME) }
+  scope :without_default, -> { where(is_default: false) }
   scope :in_progress, -> { where(stopped_at: nil) }
 
   belongs_to :user
@@ -50,14 +50,14 @@ class Project < ApplicationRecord
   private
 
   def cannot_destroy_default_project
-    if name == Constants::DEFAULT_PROJECT_NAME
+    if is_default?
       errors.add(:base, 'デフォルトプロジェクトは削除できません')
       throw :abort
     end
   end
 
   def cannot_stop_default_project
-    errors.add(:base, 'デフォルトプロジェクトは停止できません') if stopped? && name == Constants::DEFAULT_PROJECT_NAME
+    errors.add(:base, 'デフォルトプロジェクトは停止できません') if stopped? && is_default?
   end
 
   def cannot_stop_with_tasks_after_today
