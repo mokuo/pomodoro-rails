@@ -27,6 +27,6 @@ class User < ApplicationRecord
   private
 
   def create_default_project
-    projects.create!(name: Constants::DEFAULT_PROJECT_NAME)
+    projects.create!(name: Constants::DEFAULT_PROJECT_NAME, is_default: true)
   end
 end

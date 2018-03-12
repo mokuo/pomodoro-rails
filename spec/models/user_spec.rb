@@ -27,8 +27,10 @@ RSpec.describe User, type: :model do
 
     it '作成されたユーザーに紐付くデフォルトプロジェクトを作成する' do
       expect { subject }.to change { Project.count }.by(1)
-      expect(Project.last.user).to eq User.last
-      expect(Project.last.name).to eq Constants::DEFAULT_PROJECT_NAME
+      last_project = Project.last
+      expect(last_project.user).to eq User.last
+      expect(last_project.name).to eq Constants::DEFAULT_PROJECT_NAME
+      expect(last_project.is_default).to be_truthy
     end
   end
 end
