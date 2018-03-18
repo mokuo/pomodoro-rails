@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  stopped_at :datetime
+#  is_default :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -49,7 +50,14 @@ RSpec.describe Project, type: :model do
       context 'デフォルトプロジェクトの時' do
         let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
 
+        before { project.update_attribute(:is_default, true) }
+
         it_behaves_like 'プロジェクトを停止しない'
+
+        it 'バリデーションエラーメッセージが正しい' do
+          subject
+          expect(project.errors.full_messages.first).to eq 'デフォルトプロジェクトは停止できません'
+        end
       end
 
       context '本日以降のタスクが紐づいている時' do
@@ -58,6 +66,11 @@ RSpec.describe Project, type: :model do
         before { create :task, project: project, todo_on: Date.current }
 
         it_behaves_like 'プロジェクトを停止しない'
+
+        it 'バリデーションエラーメッセージが正しい' do
+          subject
+          expect(project.errors.full_messages.first).to eq '本日以降のタスクが紐づいたプロジェクトは停止できません'
+        end
       end
     end
   end
@@ -97,8 +110,15 @@ RSpec.describe Project, type: :model do
     context 'デフォルトプロジェクトの時' do
       let!(:project) { create :project, name: Constants::DEFAULT_PROJECT_NAME }
 
+      before { project.update_attribute(:is_default, true) }
+
       it '削除されない' do
         expect { subject }.not_to change { Project.count }
+      end
+
+      it 'バリデーションエラーメッセージが正しい' do
+        subject
+        expect(project.errors.full_messages.first).to eq 'デフォルトプロジェクトは削除できません'
       end
     end
 
@@ -108,6 +128,20 @@ RSpec.describe Project, type: :model do
       it '削除される' do
         expect { subject }.to change { Project.count }.by(-1)
       end
+    end
+  end
+
+  describe 'validate :cannot_be_default' do
+    subject { project.update(is_default: true) }
+    let(:project) { create :project, is_default: false}
+
+    it 'プロジェクトはデフォルトにならない' do
+      expect { subject }.not_to change { project.reload.is_default }
+    end
+
+    it 'バリデーションエラーメッセージは正しい' do
+      subject
+      expect(project.errors.full_messages.first).to eq 'デフォルトかどうかは後から設定できません'
     end
   end
 end

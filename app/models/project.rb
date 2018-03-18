@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  stopped_at :datetime
+#  is_default :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -20,7 +21,7 @@
 #
 
 class Project < ApplicationRecord
-  scope :without_default, -> { where.not(name: Constants::DEFAULT_PROJECT_NAME) }
+  scope :without_default, -> { where(is_default: false) }
   scope :in_progress, -> { where(stopped_at: nil) }
 
   belongs_to :user
@@ -30,8 +31,9 @@ class Project < ApplicationRecord
   validates :name, presence: true
   validate :cannot_stop_default_project
   validate :cannot_stop_with_tasks_after_today
+  validate :cannot_be_default
 
-  before_destroy :protect_default_project
+  before_destroy :cannot_destroy_default_project
 
   def stop
     update(stopped_at: DateTime.current)
@@ -47,15 +49,22 @@ class Project < ApplicationRecord
 
   private
 
-  def protect_default_project
-    throw :abort if name == Constants::DEFAULT_PROJECT_NAME
+  def cannot_destroy_default_project
+    if is_default?
+      errors.add(:base, 'デフォルトプロジェクトは削除できません')
+      throw :abort
+    end
   end
 
   def cannot_stop_default_project
-    errors.add(:base, 'デフォルトプロジェクトは停止できません') if stopped? && name == Constants::DEFAULT_PROJECT_NAME
+    errors.add(:base, 'デフォルトプロジェクトは停止できません') if stopped? && is_default?
   end
 
   def cannot_stop_with_tasks_after_today
     errors.add(:base, '本日以降のタスクが紐づいたプロジェクトは停止できません') if stopped? && tasks.where('todo_on >= ?', Date.current).present?
+  end
+
+  def cannot_be_default
+    errors.add(:is_default, 'は後から設定できません') if is_default?
   end
 end

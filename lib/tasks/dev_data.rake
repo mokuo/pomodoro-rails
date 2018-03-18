@@ -12,7 +12,7 @@ namespace :dev_data do
       task.pomodoros.create!(box: 1)
     end
 
-    default_project = user.projects.find_by(name: Constants::DEFAULT_PROJECT_NAME)
+    default_project = user.projects.find_by(is_default: true)
     default_project.tasks.create!(name: 'no project task', todo_on: Date.current)
   end
 end

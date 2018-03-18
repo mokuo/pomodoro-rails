@@ -3,7 +3,7 @@
 - [認証について](#about-authentication)
 - [エラーについて](#about-error)
 - [プロジェクト一覧](#project-list)
-- [進行中プロジェクト一覧](#in-progress-project-lis)
+- [進行中プロジェクト一覧](#in-progress-project-list)
 - [タスク付きプロジェクト一覧](#project-list-with-tasks)
 - [タスク新規作成](#create-task)
 - [タスク更新](#update-task)
@@ -150,8 +150,9 @@ curl -X GET \
   "date": "2017-11-02",
   "projects": [
     {
-      "id": 1,
+      "id": 2,
       "name": "テストプロジェクト",
+      "is_default": false,
       "tasks": [
         {
           "id": 1,
@@ -171,6 +172,12 @@ curl -X GET \
           ]
         }
       ]
+    },
+    {
+      "id": 1,
+      "name": "no project",
+      "is_default": true,
+      "tasks": []
     }
   ]
 }
