@@ -71,7 +71,7 @@ const Project = props => {
 
   return (
     <tbody>
-      <tr className="table-primary">
+      <tr className={props.is_default ? 'table-secondary' : 'table-primary'}>
         <th colSpan="11">
           {props.name}
           <a
@@ -95,6 +95,7 @@ const Project = props => {
 Project.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  is_default: PropTypes.bool.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   operation: PropTypes.shape({
     type: PropTypes.string,
