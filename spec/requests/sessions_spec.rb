@@ -28,7 +28,7 @@ RSpec.describe 'Sessions', type: :request do
       end
 
       it 'トップ画面に遷移する' do
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to todos_path
       end
     end
 

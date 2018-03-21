@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
     if user && user.authenticate(params[:password])
       login(user)
-      redirect_to root_path, notice: 'ログインしました'
+      redirect_to todos_path, notice: 'ログインしました'
     else
       flash[:alert] = 'ユーザー名とパスワードが一致しません'
       render :new
