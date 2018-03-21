@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  root 'todos#index'
   resource :sessions, only: [:new, :create, :destroy]
   resources :projects, except: :show do
     resource :stop, only: [:update, :destroy], module: :projects
