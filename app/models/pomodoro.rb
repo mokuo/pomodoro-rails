@@ -26,14 +26,4 @@ class Pomodoro < ApplicationRecord
   validates_with PomodoroNumberValidator
   validates :box, presence: true, pomodoro_box: true
   validates :done, inclusion: { in: [true, false] }, pomodoro_done: true
-
-  before_destroy :can_delete_only_last
-
-  private
-
-  def can_delete_only_last
-    return if task.pomodoros.last == self
-    errors.add(:base, '最後のポモドーロしか削除できません')
-    throw :abort
-  end
 end
