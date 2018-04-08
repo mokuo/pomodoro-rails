@@ -4,6 +4,7 @@
 - Rails 5.1.4
 - MySQL 5.7.x
 - Node.js 6.11.1
+- yarn
 
 # 開発環境セットアップ手順
 
@@ -19,21 +20,15 @@ cd pomodoro-rails
 
 ```
 yarn install
+gem install -N bundler # bundler がインストール済の場合不要
 bundle install --path vendor/bundle
 ```
 
-## 環境変数の設定
+## database.yml の設定
 
-`.env.sample` をコピーして `.env` に値を設定する
+`database.yml.sample` をコピーして `database.yml` を作成する。
 
-```
-cp .env.sample .env
-```
-
-| キー              | 説明                                 | 例・備考     |
-|-------------------|--------------------------------------|--------------|
-| DB_USER           | 開発データベースのユーザ名           | root         |
-| DB_PASS           | 開発データベースのパスワード         |              |
+必要に応じて、 `username`, `password` を設定する。
 
 ## データベースの初期化
 
@@ -44,7 +39,7 @@ bin/rails db:create db:migrate
 ## 開発サーバーの起動
 
 ```
-bin/server
+bin/dev-server
 ```
 
 ## テスト実行
