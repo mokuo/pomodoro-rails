@@ -11,7 +11,7 @@ class Api::TasksController < Api::BaseController
   end
 
   def destroy
-    @task.destroy
+    @task.destroy! # Pomodoro が throw :abort した時に ActiveRecord::RecordNotDestroyed になる
   end
 
   private

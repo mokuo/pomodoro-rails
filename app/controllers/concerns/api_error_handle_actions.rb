@@ -13,6 +13,10 @@ concern :ApiErrorHandleActions do
     rescue_from ArgumentError do
       render_json(403, ['引数が間違っています'])
     end
+
+    rescue_from ActiveRecord::RecordNotDestroyed do
+      render_json(404, ['削除に失敗しました'])
+    end
   end
 
   private
