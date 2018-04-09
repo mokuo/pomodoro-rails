@@ -1,5 +1,6 @@
 %h2.text-center アクティビティ在庫シート
 #activityInventory
 = javascript_tag do
+  window.date = #{ raw Date.current.to_json }
   window.projects = #{ raw render 'projects.json.jbuilder', projects: @projects }
 = javascript_pack_tag 'activityInventory'
