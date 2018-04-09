@@ -5,6 +5,7 @@ import Activity from './Activity'
 
 const Project = props => {
   let newTask = null
+  const date = props.sheet === 'activity' ? null : props.date
 
   if (
     props.operation.type === 'new' &&
@@ -21,14 +22,14 @@ const Project = props => {
             onBlur={e => {
               const taskName = e.target.value
               if (taskName.trim() !== '') {
-                props.createTask(props.id, taskName, props.date)
+                props.createTask(props.id, taskName, date)
               }
               props.finishOperation()
             }}
             onKeyPress={e => {
               const taskName = e.target.value
               if (e.key === 'Enter' && taskName.trim() !== '') {
-                props.createTask(props.id, taskName, props.date)
+                props.createTask(props.id, taskName, date)
                 props.finishOperation()
               }
             }}
