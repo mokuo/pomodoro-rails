@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { receiveError } from './error'
+import handleResponse from './common/handleResponse'
 
 export const newTask = projectId => (
   {
@@ -28,11 +28,8 @@ export const createTask = (projectId, name, todoOn) => (
       todo_on: todoOn
     })
       .then(response => {
-        const { error } = response.data
-        dispatch(receiveError(error))
-        if (error.code === 0) {
-          dispatch(receiveTask(response.data.task))
-        }
+        const action = receiveTask(response.data.task)
+        handleResponse(dispatch, response, action)
       })
   }
 )
@@ -48,11 +45,8 @@ export const deleteTask = id => (
   dispatch => {
     axios.delete(`/api/v1/tasks/${id}`)
       .then(response => {
-        const { error } = response.data
-        dispatch(receiveError(error))
-        if (error.code === 0) {
-          dispatch(finishTaskDeletion(id))
-        }
+        const action = finishTaskDeletion(id)
+        handleResponse(dispatch, response, action)
       })
   }
 )
@@ -78,11 +72,8 @@ export const updateTask = (id, name) => (
       name
     })
       .then(response => {
-        const { error } = response.data
-        dispatch(receiveError(error))
-        if (error.code === 0) {
-          dispatch(finishTaskUpdate(id, name))
-        }
+        const action = finishTaskUpdate(id, name)
+        handleResponse(dispatch, response, action)
       })
   }
 )
@@ -110,11 +101,8 @@ export const toggleTask = id => (
       done
     })
       .then(response => {
-        const { error } = response.data
-        dispatch(receiveError(error))
-        if (error.code === 0) {
-          dispatch(finishTaskToggle(id, done))
-        }
+        const action = finishTaskToggle(id, done)
+        handleResponse(dispatch, response, action)
       })
   }
 )
@@ -145,11 +133,8 @@ export const moveTask = id => (
       todo_on: todoOn
     })
       .then(response => {
-        const { error } = response.data
-        dispatch(receiveError(error))
-        if (error.code === 0) {
-          dispatch(finishTaskMovement(id))
-        }
+        const action = finishTaskMovement(id)
+        handleResponse(dispatch, response, action)
       })
   }
 )
