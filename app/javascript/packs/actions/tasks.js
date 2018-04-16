@@ -1,5 +1,6 @@
 import axios from 'axios'
 import handleResponse from './common/handleResponse'
+import { receiveUnexpectedError } from './unexpectedError'
 
 export const newTask = projectId => (
   {
@@ -30,6 +31,9 @@ export const createTask = (projectId, name, todoOn) => (
       .then(response => {
         const action = receiveTask(response.data.task)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )

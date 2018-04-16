@@ -5,6 +5,7 @@ import error from './error'
 import modals from './modals'
 import sheet from './sheet'
 import date from './date'
+import unexpectedError from './unexpectedError'
 
 const activityInventoryReducer = combineReducers({
   projects,
@@ -12,7 +13,8 @@ const activityInventoryReducer = combineReducers({
   error,
   modals,
   sheet,
-  date
+  date,
+  unexpectedError
 })
 
 export default activityInventoryReducer

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import handleResponse from './common/handleResponse'
+import { receiveUnexpectedError } from './unexpectedError'
 
 const receivePomodoro = pomodoro => (
   {
@@ -15,6 +16,9 @@ export const createPomodoro = (taskId, box) => (
       .then(response => {
         const action = receivePomodoro(response.data.pomodoro)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )
