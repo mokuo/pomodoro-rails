@@ -52,6 +52,9 @@ export const deleteTask = id => (
         const action = finishTaskDeletion(id)
         handleResponse(dispatch, response, action)
       })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
+      })
   }
 )
 
@@ -78,6 +81,9 @@ export const updateTask = (id, name) => (
       .then(response => {
         const action = finishTaskUpdate(id, name)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )
@@ -107,6 +113,9 @@ export const toggleTask = id => (
       .then(response => {
         const action = finishTaskToggle(id, done)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )
@@ -139,6 +148,9 @@ export const moveTask = id => (
       .then(response => {
         const action = finishTaskMovement(id)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )

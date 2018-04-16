@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { receiveUnexpectedError } from './unexpectedError'
 
 const receiveTodos = projects => (
   {
@@ -16,6 +17,9 @@ export const fetchTodos = date => (
     })
       .then(response => {
         dispatch(receiveTodos(response.data.projects))
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )

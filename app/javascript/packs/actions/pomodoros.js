@@ -37,6 +37,9 @@ export const updatePomodoro = (id, box) => (
         const action = finishPomodoroUpdate(response.data.pomodoro)
         handleResponse(dispatch, response, action)
       })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
+      })
   }
 )
 
@@ -46,6 +49,9 @@ export const togglePomodoro = (id, done) => (
       .then(response => {
         const action = finishPomodoroUpdate(response.data.pomodoro)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )
@@ -63,6 +69,9 @@ export const deletePomodoro = id => (
       .then(response => {
         const action = finishPomodoroDeletion(id)
         handleResponse(dispatch, response, action)
+      })
+      .catch(error => {
+        dispatch(receiveUnexpectedError(error.message))
       })
   }
 )
