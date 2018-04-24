@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Alert = props => {
+const ErrorAlert = props => {
   let alertDanger = null
 
   const errorMessages = props.error.messages.map((msg, index) => (
@@ -20,11 +20,11 @@ const Alert = props => {
   return alertDanger
 }
 
-Alert.propTypes = {
+ErrorAlert.propTypes = {
   error: PropTypes.shape({
     code: PropTypes.number.isRequired,
     messages: PropTypes.array.isRquired
   }).isRequired
 }
 
-export default Alert
+export default ErrorAlert

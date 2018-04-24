@@ -1,13 +1,15 @@
 import React from 'react'
 import DateNavigation from '../containers/DateNavigation'
 import ProjectListContainer from '../containers/ProjectListContainer'
-import ErrorAlert from '../containers/ErrorAlert'
+import ErrorAlertContainer from '../containers/ErrorAlertContainer'
+import UnexpectedErrorAlertContainer from '../containers/UnexpectedErrorAlertContainer'
 import DeleteTaskModal from '../containers/DeleteTaskModal'
 
 const TodoSheet = () =>
   (
     <div>
-      <ErrorAlert />
+      <ErrorAlertContainer />
+      <UnexpectedErrorAlertContainer />
       <DateNavigation />
       <ProjectListContainer />
       <DeleteTaskModal />

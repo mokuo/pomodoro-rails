@@ -1,13 +1,14 @@
 import React from 'react'
-import DateNavigation from '../containers/DateNavigation'
 import ProjectListContainer from '../containers/ProjectListContainer'
-import ErrorAlert from '../containers/ErrorAlert'
+import ErrorAlertContainer from '../containers/ErrorAlertContainer'
+import UnexpectedErrorAlertContainer from '../containers/UnexpectedErrorAlertContainer'
 import DeleteTaskModal from '../containers/DeleteTaskModal'
 
 const ActivityInventory = () =>
   (
     <div>
-      <ErrorAlert />
+      <ErrorAlertContainer />
+      <UnexpectedErrorAlertContainer />
       <ProjectListContainer />
       <DeleteTaskModal />
     </div>
