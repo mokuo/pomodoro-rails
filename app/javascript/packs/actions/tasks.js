@@ -1,6 +1,7 @@
 import axios from 'axios'
 import handleResponse from './common/handleResponse'
 import { receiveUnexpectedError } from './unexpectedError'
+import { startFetching } from './fetching'
 
 export const newTask = projectId => (
   {
@@ -24,6 +25,7 @@ const receiveTask = task => (
 
 export const createTask = (projectId, name, todoOn) => (
   dispatch => {
+    dispatch(startFetching())
     axios.post(`/api/v1/projects/${projectId}/tasks`, {
       name,
       todo_on: todoOn

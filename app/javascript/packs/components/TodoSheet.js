@@ -4,6 +4,7 @@ import ProjectListContainer from '../containers/ProjectListContainer'
 import ErrorAlertContainer from '../containers/ErrorAlertContainer'
 import UnexpectedErrorAlertContainer from '../containers/UnexpectedErrorAlertContainer'
 import DeleteTaskModal from '../containers/DeleteTaskModal'
+import IndicatorContainer from '../containers/IndicatorContainer'
 
 const TodoSheet = () =>
   (
@@ -13,6 +14,7 @@ const TodoSheet = () =>
       <DateNavigation />
       <ProjectListContainer />
       <DeleteTaskModal />
+      <IndicatorContainer />
     </div>
   )
 

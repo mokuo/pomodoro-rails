@@ -6,6 +6,7 @@ import error from './error'
 import modals from './modals'
 import sheet from './sheet'
 import unexpectedError from './unexpectedError'
+import fetching from './fetching'
 
 const todoSheetReducer = combineReducers({
   date,
@@ -14,7 +15,8 @@ const todoSheetReducer = combineReducers({
   error,
   modals,
   sheet,
-  unexpectedError
+  unexpectedError,
+  fetching
 })
 
 export default todoSheetReducer
