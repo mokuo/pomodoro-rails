@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { receiveUnexpectedError } from './unexpectedError'
+import handleResponse from './common/handleResponse'
+import handleError from './common/handleError'
+import { startFetching } from './fetching'
 
 const receiveTodos = projects => (
   {
@@ -10,16 +12,18 @@ const receiveTodos = projects => (
 
 export const fetchTodos = date => (
   dispatch => {
+    dispatch(startFetching())
     axios.get('/api/v1/todos', {
       params: {
         date
       }
     })
       .then(response => {
-        dispatch(receiveTodos(response.data.projects))
+        const action = receiveTodos(response.data.projects)
+        handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
