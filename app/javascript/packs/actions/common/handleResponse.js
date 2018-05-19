@@ -1,4 +1,5 @@
 import { receiveError } from '../error'
+import { finishFetching } from '../fetching'
 
 const handleResponse = (dispatch, response, action) => {
   const { error } = response.data
@@ -6,6 +7,7 @@ const handleResponse = (dispatch, response, action) => {
   if (error.code === 0) {
     dispatch(action)
   }
+  dispatch(finishFetching())
 }
 
 export default handleResponse

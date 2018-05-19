@@ -15,6 +15,7 @@
     "prop-types": "^15.6.0",
     "rails-ujs": "^5.1.4",
     "react": "^16.2.0",
+    "react-activity": "^1.2.2",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "reactstrap": "^5.0.0-alpha.4",

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import handleResponse from './common/handleResponse'
-import { receiveUnexpectedError } from './unexpectedError'
+import handleError from './common/handleError'
+import { startFetching } from './fetching'
 
 const receivePomodoro = pomodoro => (
   {
@@ -12,13 +13,14 @@ const receivePomodoro = pomodoro => (
 
 export const createPomodoro = (taskId, box) => (
   dispatch => {
+    dispatch(startFetching())
     axios.post(`/api/v1/tasks/${taskId}/pomodoros`, { box })
       .then(response => {
         const action = receivePomodoro(response.data.pomodoro)
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
@@ -32,26 +34,28 @@ const finishPomodoroUpdate = pomodoro => (
 
 export const updatePomodoro = (id, box) => (
   dispatch => {
+    dispatch(startFetching())
     axios.patch(`/api/v1/pomodoros/${id}`, { box })
       .then(response => {
         const action = finishPomodoroUpdate(response.data.pomodoro)
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
 
 export const togglePomodoro = (id, done) => (
   dispatch => {
+    dispatch(startFetching())
     axios.patch(`/api/v1/pomodoros/${id}`, { done })
       .then(response => {
         const action = finishPomodoroUpdate(response.data.pomodoro)
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
@@ -65,13 +69,14 @@ const finishPomodoroDeletion = id => (
 
 export const deletePomodoro = id => (
   dispatch => {
+    dispatch(startFetching())
     axios.delete(`/api/v1/pomodoros/${id}`)
       .then(response => {
         const action = finishPomodoroDeletion(id)
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )

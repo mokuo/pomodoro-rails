@@ -1,6 +1,7 @@
 import axios from 'axios'
 import handleResponse from './common/handleResponse'
-import { receiveUnexpectedError } from './unexpectedError'
+import handleError from './common/handleError'
+import { startFetching } from './fetching'
 
 export const newTask = projectId => (
   {
@@ -24,6 +25,7 @@ const receiveTask = task => (
 
 export const createTask = (projectId, name, todoOn) => (
   dispatch => {
+    dispatch(startFetching())
     axios.post(`/api/v1/projects/${projectId}/tasks`, {
       name,
       todo_on: todoOn
@@ -33,7 +35,7 @@ export const createTask = (projectId, name, todoOn) => (
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
@@ -47,13 +49,14 @@ const finishTaskDeletion = id => (
 
 export const deleteTask = id => (
   dispatch => {
+    dispatch(startFetching())
     axios.delete(`/api/v1/tasks/${id}`)
       .then(response => {
         const action = finishTaskDeletion(id)
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
@@ -75,6 +78,7 @@ const finishTaskUpdate = (id, name) => (
 
 export const updateTask = (id, name) => (
   dispatch => {
+    dispatch(startFetching())
     axios.patch(`/api/v1/tasks/${id}`, {
       name
     })
@@ -83,7 +87,7 @@ export const updateTask = (id, name) => (
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
@@ -107,6 +111,7 @@ export const toggleTask = id => (
       }
     })
 
+    dispatch(startFetching())
     axios.patch(`/api/v1/tasks/${id}`, {
       done
     })
@@ -115,7 +120,7 @@ export const toggleTask = id => (
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )
@@ -142,6 +147,7 @@ export const moveTask = id => (
         console.log('予期せぬエラーが発生しました');
     }
 
+    dispatch(startFetching())
     axios.patch(`/api/v1/tasks/${id}`, {
       todo_on: todoOn
     })
@@ -150,7 +156,7 @@ export const moveTask = id => (
         handleResponse(dispatch, response, action)
       })
       .catch(error => {
-        dispatch(receiveUnexpectedError(error.message))
+        handleError(dispatch, error)
       })
   }
 )

@@ -18,6 +18,14 @@
   font-size: 25px;
 }
 
+.rai-activity-indicator {
+  left: 50%;
+  margin: -16px 0 0 -16px;
+  position: fixed;
+  top: 50%;
+}
+
 @import '~bootstrap/dist/css/bootstrap';
 $icon-font-path: '~open-iconic/font/fonts/'; // ModuleNotFoundError エラー対策
 @import '~open-iconic/font/css/open-iconic-bootstrap';
+@import '~react-activity/lib/Spinner/Spinner';
